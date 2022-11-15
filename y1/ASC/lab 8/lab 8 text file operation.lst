@@ -1,0 +1,73 @@
+     1                                  ; A file name and a text (defined in the data segment) are given.
+     2                                  ;The text contains lowercase letters, digits and spaces. 
+     3                                  ;Replace all the digits with the character ‘X’. 
+     4                                  ;Create the file with the given name and write the generated text to file.
+     5                                  
+     6                                  bits 32
+     7                                  
+     8                                  global start
+     9                                  
+    10                                  ; declare external functions needed by our program
+    11                                  extern exit, fopen, fprintf, fclose
+    12                                  import exit msvcrt.dll
+    13                                  import fopen msvcrt.dll
+    14                                  import fprintf msvcrt.dll
+    15                                  import fclose msvcrt.dll
+    16                                  
+    17                                  ; our data is declared here (the variables needed by our program)
+    18                                  segment data use32 class=data
+    19 00000000 616E612E74787400            file_name db "ana.txt", 0   
+    20 00000008 7700                        access_mode db "w", 0      
+    21                                                                 
+    22 0000000A FFFFFFFF                    file_descriptor dd -1       
+    23 0000000E 416E61206172652032-         text db "Ana are 2 mere.", 0  
+    23 00000017 206D6572652E00     
+    24                                      len equ $-text
+    25 0000001E 00                          varianta_finala db 0
+    26                                  
+    27                                  ; our code starts here
+    28                                  segment code use32 class=code
+    29                                      start:
+    30 00000000 B910000000                      mov ecx, len
+    31 00000005 BE[0E000000]                    mov esi, text
+    32 0000000A BF[1E000000]                    mov edi, varianta_finala
+    33                                          verifica:
+    34 0000000F AC                                  lodsb ; ajunge in al
+    35 00000010 3C30                                cmp al, "0"
+    36 00000012 7206                                jb nu_convine
+    37 00000014 3C39                                cmp al, "9"
+    38 00000016 7702                                ja nu_convine
+    39 00000018 B058                                mov al, "X"
+    40                                              nu_convine:
+    41 0000001A AA                                      stosb
+    42 0000001B E2F2                            loop verifica
+    43                                      
+    44 0000001D 68[08000000]                    push dword access_mode     
+    45 00000022 68[00000000]                    push dword file_name
+    46 00000027 FF15[00000000]                  call [fopen]
+    47 0000002D 83C408                          add esp, 4*2   
+    48                                  
+    49 00000030 A3[0A000000]                    mov [file_descriptor], eax  ; store the file descriptor returned by fopen
+    50                                          
+    51                                          ; check if fopen() has successfully created the file (EAX != 0)
+    52 00000035 83F800                          cmp eax, 0
+    53 00000038 7423                            je final
+    54                                  
+    55                                          ; write the text to file using fprintf()
+    56                                          ; fprintf(file_descriptor, text)
+    57 0000003A 68[1E000000]                    push dword varianta_finala
+    58 0000003F FF35[0A000000]                  push dword [file_descriptor]
+    59 00000045 FF15[00000000]                  call [fprintf]
+    60 0000004B 83C408                          add esp, 4*2
+    61                                  
+    62                                          ; call fclose() to close the file
+    63                                          ; fclose(file_descriptor)
+    64 0000004E FF35[0A000000]                  push dword [file_descriptor]
+    65 00000054 FF15[00000000]                  call [fclose]
+    66 0000005A 83C404                          add esp, 4
+    67                                  
+    68                                        final:
+    69                                  
+    70                                          ; exit(0)
+    71 0000005D 6A00                            push dword 0      
+    72 0000005F FF15[00000000]                  call [exit]   

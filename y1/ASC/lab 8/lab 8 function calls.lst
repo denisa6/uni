@@ -1,0 +1,77 @@
+     1                                  bits 32
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  ; declare extern functions used by the programme
+     6                                  extern exit, printf, scanf ; add printf and scanf as extern functions            
+     7                                  import exit msvcrt.dll    
+     8                                  import printf msvcrt.dll    ; tell the assembler that function printf is found in msvcrt.dll library
+     9                                  import scanf msvcrt.dll     ; similar for scanf
+    10                                                            
+    11                                  segment data use32 class=data
+    12 00000000 00000000                	a dd  0       ; in this variable we'll store the value read from the keyboard
+    13 00000004 00000000                    b dd  0
+    14                                      ; char strings are of type byte
+    15 00000008 613D00                  	amessage  db "a=", 0  ; char strings for C functions must terminate with 0(value, not char)
+    16 0000000B 623D00                      bmessage db "b=", 0
+    17 0000000E 2F00                        divide db "/", 0
+    18 00000010 256400                  	aformat  db "%d", 0  ; %d <=> a decimal number (base 10)
+    19 00000013 256400                      bformat db "%d", 0
+    20 00000016 203D202564                  equal_result db " = %d"
+    21                                  segment code use32 class=code
+    22                                  
+    23                                  ;6) Two natural numbers a and b (a: dword, b: dword, defined in the data segment) are given. 
+    24                                  ;Calculate a/b and display the quotient in the following format: "<a>/<b> = <quotient>". 
+    25                                  ;Example: for a = 200, b = 5 it will display: "200/5 = 40".
+    26                                  
+    27                                      start:
+    28                                         
+    29 00000000 68[08000000]                    push dword amessage 
+    30 00000005 FF15[00000000]                  call [printf]      ; call function printf for printing
+    31 0000000B 83C404                          add esp, 4*1       ; free parameters on the stack; 4 = size of dword; 1 = number of parameters
+    32                                                       
+    33                                          ; we get a                     
+    34 0000000E 68[00000000]                    push dword a  
+    35 00000013 68[10000000]                    push dword aformat
+    36 00000018 FF15[00000000]                  call [scanf]    
+    37 0000001E 83C408                          add esp, 4 * 2  
+    38                                                             
+    39 00000021 68[0B000000]                    push dword bmessage 
+    40 00000026 FF15[00000000]                  call [printf]   
+    41 0000002C 83C404                          add esp, 4*1
+    42                                                
+    43                                          ; we get b              
+    44 0000002F 68[04000000]                    push dword b       
+    45 00000034 68[13000000]                    push dword bformat
+    46 00000039 FF15[00000000]                  call [scanf]       
+    47 0000003F 83C408                          add esp, 4 * 2 
+    48                                  
+    49                                          ; this part prints a/b
+    50 00000042 FF35[00000000]                  push dword [a]
+    51 00000048 68[10000000]                    push dword aformat
+    52 0000004D FF15[00000000]                  call[printf]
+    53 00000053 83C408                          add esp, 4 * 2
+    54 00000056 68[0E000000]                    push dword divide
+    55 0000005B FF15[00000000]                  call[printf]
+    56 00000061 83C404                          add esp, 4*1
+    57 00000064 FF35[04000000]                  push dword [b]
+    58 0000006A 68[13000000]                    push dword bformat
+    59 0000006F FF15[00000000]                  call[printf]
+    60 00000075 83C408                          add esp, 4 * 2
+    61                                  
+    62                                          ; we find the result of the division
+    63 00000078 A1[00000000]                    mov eax, [a]
+    64 0000007D 99                              cdq
+    65 0000007E 8B1D[04000000]                  mov ebx, [b]
+    66 00000084 F7F3                            div ebx
+    67                                          
+    68                                          ; we print the result 
+    69 00000086 50                              push dword eax
+    70 00000087 68[16000000]                    push dword equal_result
+    71 0000008C FF15[00000000]                  call[printf]
+    72 00000092 83C408                          add esp, 4*2
+    73                                          
+    74                                          
+    75                                          ; exit(0)
+    76 00000095 6A00                            push dword 0      ; place on stack parameter for exit
+    77 00000097 FF15[00000000]                  call [exit]       ; call exit to terminate the program
