@@ -1,5 +1,0 @@
-﻿  main.c
-C:\Users\Denisa\Desktop\asm_tools\npp\lab12\lab12\main.c(40,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  main2.c
-C:\Users\Denisa\Desktop\asm_tools\npp\lab12\lab12\main2.c(42,5): error C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  Generating Code...
