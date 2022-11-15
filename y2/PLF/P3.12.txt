@@ -1,0 +1,32 @@
+% Generate all sub-strings of a length 2*n+1,formed from values of 0,1 or -1, 
+% so a1 = ..., a2n+1 = 0 and |a(i+1) -ai| = 1 or 2, for every1 <= i <= 2n.
+
+isOk([H|_],V):-
+    H-V =:= 1,!.
+isOk([H|_],V):-
+    H-V =:= 2,!.
+isOk([H|_],V):-
+    V-H =:= 1,!.
+isOk([H|_],V):-
+    V-H =:= 2,!.
+
+sublistX(P, N, [0]):-
+    P =:= 2*N+1.
+sublistX(P,N,R):-
+    P < 2*N+1,
+    P1 is P + 1,
+    sublistX(P1, N, R1),
+    isOk(R1,0),
+    R = [0|R1].
+sublistX(P,N,R):-
+    P < 2*N+1,
+    P1 is P + 1,
+    sublistX(P1, N, R1),
+    isOk(R1,1),
+    R = [1|R1].
+sublistX(P,N,R):-
+    P < 2*N+1,
+    P1 is P + 1,
+    sublistX(P1, N, R1),
+    isOk(R1,-1),
+    R = [-1|R1].

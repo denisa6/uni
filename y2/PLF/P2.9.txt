@@ -1,0 +1,33 @@
+reverse_list([H|T], ReversedList):-
+    reverse_list_helper([H|T], [], ReversedList).
+reverse_list_helper([], Aux, Aux).
+reverse_list_helper([H|T], Aux, ReversedList):-
+    reverse_list_helper(T, [H|Aux], ReversedList).
+
+%9.a
+%add_elems(List, Position, Element, Collector, Result)
+add_elems([],_,_,C,C).
+add_elems([H|T], P, E, C, R):-
+    (P =:= 1; P=:=3; P=:=7; P=:=15),!,
+    P1 is P+1,
+    C1 = [H|C],
+    add_elems(T, P1, E, [E|C1],R).
+add_elems([H|T], P, E, C, R):-
+    P1 is P+1,
+    add_elems(T, P1, E, [H|C], R).
+main_a(L,E,R):-
+    add_elems(L,1,E,[],R1),
+    reverse_list(R1,R).
+
+%9.b
+%add_in_sublist(List, PreviousValue, Collector, Result)
+add_in_sublist([],_,C,C).
+add_in_sublist([H|T],PV,C,R):-
+    is_list(H),!,
+    main_a(H,PV,R1),
+    add_in_sublist(T,PV,[R1|C],R).
+add_in_sublist([H|T],_,C,R):-
+   add_in_sublist(T,H,[H|C],R).
+main_b(L,R):-
+    add_in_sublist(L,0,[],R1),
+    reverse_list(R1,R).
