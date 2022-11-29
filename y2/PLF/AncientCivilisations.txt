@@ -1,0 +1,108 @@
+1. Problem statement
+
+Anciect Civilisations
+Five girls are side by side talking about ancient civilizations. 
+Each girl is passionate about a certain ancient civilization and knows a lot of things regarding a specific subject of it. 
+Follow the clues to figure out which girl likes the Aztecs.
+
+1. At the fourth position is the girl drinking Strawberry juice.
+2. The girl drinking Strawberry juice is somewhere between the girl who likes Art and the girl that is drinking Apple juice, in that order.
+3. Riley is next to the girl who likes the Roman civilization.
+4. The girl wearing the Green shirt is drinking Apple juice.
+5. At the fourth position is the girl that is interested in Religion.
+6. The 12 years old girl is exactly to the right of the 11 years old girl.
+7. At one of the ends is the girl who likes the Egyptian civilization.
+8. The girl wearing the Black shirt is somewhere between the girl that likes Science and the girl wearing the Red shirt, in that order.
+9. The girl wearing the Red shirt is somewhere to the left of the girl wearing the White shirt.
+10. The girl drinking Cranberry juice likes the Greek civilization.
+11. Ella is at the third position.
+12. The 12 years old girl is next to the girl that is interested in Architecture.
+13. Riley is exactly to the right of the girl that admires the Roman civilization.
+14. The girl drinking Cranberry juice is somewhere between the 13 years old girl and the girl drinking Grapefruit juice, in that order.
+15. At one of the ends is the girl that likes Science.
+16. At one of the ends is the girl who loves Architecture.
+17. Lily is exactly to the right of the girl who likes Economy.
+18. Makayla is 10.
+19. The girl interested in the Aztec civilization is somewhere between the girl interested in the Roman civilization and the girl interested in the Chinese civilization, in that order.
+20. The youngest girl is at one of the ends.
+21. At the second position is the girl that likes Art.
+girl("Shirt","Name","Civil","Intr","Age","Juice")
+
+
+2. Code:
+
+:-use_rendering(table,[header(girl('Shirt','Name','Civilisation','Subject','Age','Juice'))]).
+
+nextToLeft(A, B, Ls) :- append(_, [A,B|_], Ls).
+
+nextTo(A,B, Ls):-append(_,[B,A|_], Ls).
+nextTo(A,B, Ls):-append(_,[A,B|_], Ls).
+
+atAnyEnd(A, Ls):- Ls=[A|_].
+atAnyEnd(A, Ls):- Ls=[_,_,_,_,A].
+    
+somewhereLeft(A,B, Ls):- append(_, [A, B|_], Ls).
+somewhereLeft(A,B, Ls):- append(_, [A,_, B|_], Ls).
+somewhereLeft(A,B, Ls):- append(_, [A,_,_, B|_], Ls).
+somewhereLeft(A,B, Ls):- append(_, [A,_,_,_, B|_], Ls).
+
+somewhereBetween(A, B, C, Ls):- somewhereLeft(A, B, Ls), somewhereLeft(B,C, Ls).
+
+girls(Girls):-
+    length(Girls,5),
+    Girls=[_,_,_,girl(_,_,_,religion,_,strawberry),_],                                              %5,1
+    Girls=[_,_,girl(_,ella,_,_,_,_),_,_],                                                           %11
+    Girls=[_,girl(_,_,_,art,_,_),_,_,_],                                                            %21
+    somewhereBetween(girl(_,_,_,art,_,_),girl(_,_,_,_,_,strawberry),girl(_,_,_,_,_,apple),Girls),   %2
+    nextTo(girl(_,riley,_,_,_,_),girl(_,_,roman,_,_,_),Girls),                                      %3
+    member(girl(green,_,_,_,_,apple),Girls),                                                        %4
+    nextToLeft(girl(_,_,_,_,11,_),girl(_,_,_,_,12,_),Girls),                                        %6
+    atAnyEnd(girl(_,_,egyptian,_,_,_),Girls),                                                       %7
+    somewhereBetween(girl(_,_,_,science,_,_),girl(black,_,_,_,_,_),girl(red,_,_,_,_,_),Girls),      %8
+    somewhereLeft(girl(red,_,_,_,_,_),girl(white,_,_,_,_,_),Girls),                                 %9
+    member(girl(_,_,greek,_,_,cranberry),Girls),                                                    %10
+    nextTo(girl(_,_,_,_,12,_),girl(_,_,_,arhitecture,_,_),Girls),                                   %12
+    nextToLeft(girl(_,_,roman,_,_,_),girl(_,riley,_,_,_,_),Girls),                                  %13
+    somewhereBetween(girl(_,_,_,_,13,_),girl(_,_,_,_,_,cranberry),girl(_,_,_,_,_,grapefruit),Girls),%14
+    atAnyEnd(girl(_,_,_,science,_,_),Girls),                                                        %15
+    atAnyEnd(girl(_,_,_,arhitecture,_,_),Girls),                                                    %16
+    nextToLeft(girl(_,_,_,economy,_,_),girl(_,lily,_,_,_,_),Girls),                                 %17
+    member(girl(_,makayla,_,_,10,_),Girls),                                                         %18
+    somewhereBetween(girl(_,_,roman,_,_,_),girl(_,_,aztec,_,_,_),girl(_,_,chinese,_,_,_),Girls),    %19
+    atAnyEnd(girl(_,_,_,_,10,_),Girls),                                                             %20
+    member(girl(blue,_,_,_,_,_),Girls),     %one girl is wearing blue
+    member(girl(_,julia,_,_,_,_),Girls),    %one girl is named julia
+    member(girl(_,_,_,_,14,_),Girls),       %one girl is 14
+    member(girl(_,_,_,_,_,orange),Girls),!. %one girl is wearing orange
+
+
+aztec_girl(Girl):-
+    girls(GirlsList),
+    member(girl(_,Girl,aztec,_,_,_),GirlsList),!.
+
+
+3. Purpose and explanations
+
+- use_rendering -> for formating the table
+- nextToLeft(A, B, Ls) -> appends B to the left of A (right next to each other) in the list Ls
+- nextTo(A,B, Ls) -> appends A next to B (either the left or the right one) in the list Ls
+- atAnyEnd(A, Ls) -> appends A either at the beggining or the end of the list Ls
+- somewhereLeft(A,B, Ls) -> appends B to the left of A in the list Ls (different from nextToLeft
+  because 'somewhereLeft' doesn't have to place B right next to A)
+- somewhereBetween(A, B, C, Ls) -> appends B somewhere in between A and C in the list Ls
+- girls -> returns the list of girls with their required properties in their required order
+- aztec_girl -> returns the name of the girl who is passionate about aztec civilisation
+
+
+4. Query examples and results expected
+
+girls(G).
+G = [girl(blue,julia,roman,science,13,orange),
+     girl(black,riley,greek,art,14,cranberry),
+     girl(red,ella,aztec,economy,11,grapefruit),
+     girl(white,lily,chinese,religion,12,strawberry),
+     girl(green,makayla,egyptian,arhitecture,10,apple)]
+
+
+aztec_girl(Girl).
+Girl = ella
