@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="551.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.execution_window_controller">
+   <children>
+      <ListView fx:id="OutListView" layoutX="41.0" layoutY="62.0" prefHeight="167.0" prefWidth="147.0" />
+      <ListView fx:id="FileTableListView" layoutX="262.0" layoutY="62.0" prefHeight="167.0" prefWidth="147.0" />
+      <ListView fx:id="ProgramStateListView" layoutX="467.0" layoutY="62.0" prefHeight="167.0" prefWidth="147.0" />
+      <ListView fx:id="ExeStackListView" layoutX="262.0" layoutY="298.0" prefHeight="167.0" prefWidth="147.0" />
+      <TableView fx:id="HeapTableView" layoutX="42.0" layoutY="298.0" prefHeight="167.0" prefWidth="147.0">
+        <columns>
+          <TableColumn fx:id="heapAddrC" prefWidth="75.0" text="addr" />
+          <TableColumn fx:id="heapValueC" prefWidth="75.0" text="value" />
+        </columns>
+      </TableView>
+      <TableView fx:id="symTableView" layoutX="467.0" layoutY="298.0" prefHeight="167.0" prefWidth="147.0">
+        <columns>
+          <TableColumn fx:id="symTnameC" prefWidth="75.0" text="name" />
+          <TableColumn fx:id="symTvalueC" prefWidth="75.0" text="value" />
+        </columns>
+      </TableView>
+      <Label fx:id="OutLabel" alignment="CENTER" layoutX="40.0" layoutY="29.0" prefHeight="18.0" prefWidth="147.0" text="Out" />
+      <Label fx:id="FileTablesLabel" alignment="CENTER" layoutX="262.0" layoutY="29.0" prefHeight="18.0" prefWidth="147.0" text="File Tables" />
+      <Label fx:id="PrgStateIdLabel" alignment="CENTER" layoutX="465.0" layoutY="29.0" prefHeight="18.0" prefWidth="147.0" text="PrgState Identifiers" />
+      <Label fx:id="HeapTableLabel" alignment="CENTER" layoutX="42.0" layoutY="267.0" prefHeight="18.0" prefWidth="147.0" text="Heap Table" />
+      <Label fx:id="ExeStackLabel" alignment="CENTER" layoutX="263.0" layoutY="267.0" prefHeight="18.0" prefWidth="147.0" text="Exe Stack" />
+      <Label fx:id="SymTableLabel" alignment="CENTER" layoutX="465.0" layoutY="267.0" prefHeight="18.0" prefWidth="147.0" text="Sym Table" />
+      <TextField fx:id="nrPrgStatesTextField" layoutX="116.0" layoutY="494.0" promptText="number of prgStates" text=" number of prgStates" />
+      <Button fx:id="RunStepButton" alignment="CENTER" layoutX="325.0" layoutY="494.0" mnemonicParsing="false" onAction="#oneStepHandler" prefHeight="26.0" prefWidth="213.0" text="Run One Step" />
+   </children>
+</AnchorPane>
