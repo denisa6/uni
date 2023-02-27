@@ -1,0 +1,72 @@
+Write a function to determine the list of all sublists of a given list, on any level.
+(defun a (l ll)
+  (cond
+   ((null l) ll)
+   (t (cons (car l) (a (cdr l) ll)))
+   )
+)
+
+(defun func1c (l)
+(cond
+    ((null l) nil)
+    ((listp (car l))   (a (a (list(car l)) (func1c (car l))) (func1c (cdr l))))
+    (t                 (func1c (cdr l)))
+)
+)
+
+(defun main1c (l)
+    (func1c (list l))
+)
+
+Write a function to return the depth of a list.
+
+(defun maxFor2(a b)
+(cond
+    ((and (not (numberp a)) (not (numberp b))) nil)
+    ((not (numberp b))                         a)
+    ((not (numberp a))                         b)
+    ((> a b)                                   a)
+    (t                                         b)
+)
+)
+
+(defun func2b (l lvl)
+(cond
+    ((null l)          lvl)
+    ((listp (car l))   (maxFor2 (func2b (car l) (+ 1 lvl)) (func2b (cdr l) lvl)))
+    (t                 (func2b (cdr l) lvl))
+)
+)
+
+(defun main2b (l)
+    (func2b l 1)
+)
+
+Write a function that, with a list given as parameter, inverts only continuoussequences of atoms.
+(defun invertCont (l aux)
+  (cond
+    ((null l) aux)
+    ((listp (car l)) (a aux (a (list (invertCont (car l) nil)) (invertCont (cdr l) nil))))
+    (t (invertCont (cdr l) (a (list (car l)) aux)))
+  )
+)
+
+Write a function to replace each sublist of a list with its last element.
+;A sublist is an element from the first level, which is a list. 
+
+(defun lastElem (l)
+(cond
+    ((null l)                                       nil)
+    ((and (= (length l) 1) (not (listp (car l))))   (car l))
+    ((and (= (length l) 1) (listp (car l)))         (lastElem (car l)))
+    (t                  (lastElem (cdr l)))
+)
+)
+
+(defun func6c (l)
+(cond
+    ((null l)          nil)
+    ((listp (car l))   (cons (lastElem (car l)) (func6c (cdr l))))
+    (t                 (cons (car l) (func6c (cdr l))))
+)
+)

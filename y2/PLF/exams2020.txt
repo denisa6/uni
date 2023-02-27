@@ -1,0 +1,427 @@
+8ian2020 ex1
+sub I.
+1.
+(defun f(l1 l2)
+	(lambda (x) (
+		append x
+			(cond
+				((null l1) (cdr l2))
+				(t (list x (car l2)))
+			)
+			)
+       )(f (car l1) l2)
+	
+)
+
+2.
+f([], 0).
+f([H|T], S):-
+	f(T, S1),
+	f_aux(H, S1, S).
+
+f_aux(H, S1, S):-
+	S1 < H, !,
+	S is H.
+f_aux(_, S1, S):-
+	S is S1.
+
+3.
+(defun g(l)
+	(mapcon #'list l)
+)
+(apply #' append (mapcon #'g '(1 2)))
+
+;(g '(1 2))                           -> ((1 2) (2))
+;(mapcon #'g '(1 2))                  -> ((1 2) (2) (2))
+;(apply #'append (mapcon #'g '(1 2))) -> (1 2 2 2)
+
+4.
+f([], []).
+f([H|T], [H|S]):-
+	f(T,S).
+f([H|T], S):-
+	H mod 2 =:= 0,
+	f(T,S).
+
+f([1,2,3], L). -> [1, 2, 3]
+
+sub II.
+perm, absolute value of the diff between 2 consecutive values <= 3.
+ex: L = [2,7,5] => [[2,5,7], [7,5,2]]
+
+%insert an elem in a list 
+%(E - elem, L - list, R - result)
+insert(E, L, [E|L]).
+insert(E, [H|T], [H|R]):-
+	insert(E,T,R).
+
+%permutations of a linear list 
+%(L - list, R - result)
+perm([], []).
+perm([H|T], P):-
+	perm(T, R),
+	insert(H, R, P).
+
+
+check([_],R):-
+    R is 1.
+check([H1,H2|_], R):- 
+    abs(H1 - H2) > 3,!,
+    R is 0.
+check([_, H2|T], _):- 
+    check([H2|T], 1),!.
+
+findP([], []).
+findP([H|T], R):-
+    check(H, F),
+    F = 1,
+    findP(T, R2), !,
+    insert(H, R2, R).
+findP([_|T], R):-
+    findP(T, R).
+    
+main(L, Rez):-
+    findall(R, perm(L, R), X),
+    findP(X, Rez).
+
+sub III.
+delete numb div by 3
+ex: (1 (2 a (3 a)) (6)) -> (1 (2 a (a)) nil)
+
+(defun f(x)
+(cond
+	((and (numberp x) (equal (mod x 3) 0))   nil)
+	((atom x)                                (list x))
+      (t                                       (list (mapcan #'f x)))
+)
+)
+
+(defun main(x)
+	(car (f x))
+)
+
+-------------------------------------------------------------------------------------------
+8ian2020 ex2
+sub I.
+1.
+(defun fct(f l)
+(cond
+	((null l) nil)
+      (t (lambda (x)
+		(cond
+			((x) (cons x (fct f (cdr l))))
+			(t    nil)
+		))(funcall f (car l)))
+)
+)
+
+2.
+f([], -1).
+f([H|T], S):-
+	f(T, S1),
+	aux(H, S1, S).
+	
+aux(H, S1, S):-
+	H > 0,
+	S1 < H, !,
+	S is H.
+aux(H, S1, S):-
+	S is S1
+
+3.
+(defun g(l)
+	(list (car l) (car l))
+)
+(setq q 'g)
+(setq p 'q)
+(funcall p '(a b c)) -> (a a)
+
+4. functia e scrisa gresit pe foaie
+f([], 0).
+f([H|T], S):-
+	f(T, S1),
+	S is S1 - H.
+
+f([1,2,3,4,5,6,7,8], S) -> 0 - 8 - 7 - 6 - 5 - 4 - 3 - 2 - 1 = whatever
+
+sub II.
+arr of k elem with the prod P.
+ex: [2,5,3,4,10], k = 2, p = 20 -> [[2,10],[10,2],[5,4],[4,5]]
+insert(E, L, [E|L]).
+insert(E, [H|T], [H|R]):-
+    insert(E, T, R).
+
+arr([E|_], 1, [E]).
+arr([_|T], K, R):-
+    arr(T, K, R).
+arr([H|T], K, R1):-
+    K>1,
+    K1 is K-1,
+    arr(T, K1, R),
+    insert(H, R, R1).
+
+prod([], 1).
+prod([H|T], R):-
+    prod(T, R1),
+    R is R1*H.
+
+check([], [], _).
+check([H|T], R, P):-
+    prod(H,R1),
+    R1 = P,
+    check(T,R2, P),!,
+    insert(H,R2,R).
+check([_|T],R, P):-
+    check(T,R, P).
+
+main(L, K, P, REZ):-
+    findall(R, arr(L, K, R), X),
+    check(X, R2, P),!,
+    REZ = R2.
+
+sub III.
+repl nodes from the odd levels with a given elem e (root 0)
+ex: (a (b (g)) (c (d (e)) (f))) & e = h ->  (a (h (g)) (h (d (h)) (f)))
+
+(defun f(x e lvl)
+(cond
+	((and (atom x) (equal (mod lvl 2) 1)   e)
+      ((atom x)                              x)
+      (t                                     (mapcar #' (lambda (a) (f a e (+ 1 lvl))) x))
+)
+)
+
+(defun main(x e)
+	(f x e -1)
+)
+
+-----------------------------------------------------------------------------------------
+8ian2020 ex3
+
+sub I.
+1.
+(defun f(l)
+(cond
+	((null l) 0)
+      (t ((lambda (x)
+		(cond
+			((> x 2) (+ (car l) (f (cdr l))))
+			(t       (x))
+	       )
+	    )(f (car l))
+         )
+	 )
+)
+)
+
+2.
+f([], 0).
+f([H|T], S):-
+	f(T, S1),
+	aux(H, S1, S).
+
+aux(H, S1, S):-
+	H < S1, !,
+	S is H + S1.
+aux(H, S1, S):-
+	S is S1 + 2.
+
+3.
+(defun f(x &rest y)
+(cond
+	((null y) x)
+	(t (append x (mapcar #'car y)))
+)
+)
+
+(append (f '(1 2)) (f '(3 4) '(5 6) '(7 8))) -> (1 2 3 4 5 7)
+
+;(f '(1 2)) -> (1 2)
+;(f '(3 4) '(5 6) '(7 8)) -> (append '(3 4) '(5 7)) -> (3 4 5 7)
+
+4.
+111, 112, 121, 122, 211, 212, 221, 222
+(one under the other)
+
+sub II.
+subsets, at least n elem, sum is div by 3
+
+%insert an elem in a list 
+%(E - elem, L - list, R - result)
+insert(E, L, [E|L]).
+insert(E, [H|T], [H|R]):-
+	insert(E,T,R).
+
+%subsets
+subs([], []).
+subs([H|T], [H|Tr]):-
+	subs(T, Tr).
+subs([_|T], Tr):-
+	subs(T, Tr).
+
+sumL([], 0).
+sumL([H], R):-
+    R is H.
+sumL([H|T], R):-
+    sumL(T, R1),
+    R is R1 + H.
+
+good(H,N):- 
+    length(H,L),
+    L >= N,
+    sumL(H, R1),
+    mod(R1,3) =:= 0.
+
+check([], [], _).
+check([H|T], R, N):-
+    good(H,N),!,
+    check(T,R2,N),!,
+    insert(H,R2,R).
+check([_|T],R,N):-
+    check(T,R,N).
+
+main(L,N,REZ):-
+    findall(R,subs(L,R),X),
+    check(X, REZ, N),!.
+
+sub III.
+replace all elem from level k with 0
+ex: (a (1 (2 b)) (c (d)))
+k = 2 -> (a (0 (2 b)) (0 (d)))
+
+(defun f(x lvl k)
+(cond
+	((and (atom x) (equal lvl k))   0)
+	((atom x)                       x)
+	(t                              (mapcar #'(lambda (a) (f a (+ 1 lvl) k)) x))
+)
+)
+
+(defun main(x k)
+	(f x 0 k)
+)
+------------------------------------------------------------------------------------------
+8ian2020 ex 4
+sub I.
+1.
+(defun f(l)
+(cond
+	((atom l) -1)
+	(t ((lambda (x) 
+		(cond
+			((> x 0) (+ (car l) x (f (cdr l))))
+			(t       (f (cdr l)))
+		)
+	     )(f (car l))
+	    )
+	)
+)
+)
+
+2.
+f(1, 1):-!.
+f(K, X):-
+	K1 is K - 1,
+	f(K1, Y),
+	aux(Y, K1, X).
+
+aux(Y, K1, X):-
+	Y > 1, !,
+	K2 is K1 - 1,
+	X is K2.
+aux(Y, K1, X):-
+	Y > 0.5, !,
+	X is Y.
+aux(Y, K1, X):-
+	X is Y - 1.
+
+3.
+(defun g(f l)
+	(funcall f l)
+)
+(g #'(lambda (l) (g #'cdr l)) '(1 2 3)) -> (2 3)
+;(lambda (l) (g #'cdr l)) = (g #'cdr l) = (cdr l)
+
+4.
+111, 112, 121, 122
+(one under the other)
+
+sub II.
+arr of k elems, prod < V (given)
+insert(E, L, [E|L]).
+insert(E, [H|T], [H|R]):-
+	insert(E,T,R).
+
+arr([E|_], 1, [E]).
+arr([_|T], K, R):-
+	arr(T, K, R).
+arr([H|T], K, R1):-
+	K > 1,
+	K1 is K - 1,
+	arr(T, K1, R),
+	insert(H, R, R1).
+
+prodL([],1).
+prodL([H|T],P):-
+    prodL(T,P1),
+    P is H * P1.
+
+good(H,V):-
+    prodL(H,P),
+    P < V,!.
+
+check([],[],_).
+check([H|T],R,V):-
+    prodL(H,P),
+    P < V,!,
+    check(T,R1,V),!,
+    insert(H,R1,R).
+check([_|T],R,V):-
+    check(T,R,V).
+
+main(L,K,V,R):-
+    findall(R1,arr(L,K,R1),X),
+    check(X,R,V),!.
+
+sub III.
+replace even values with the next numeric value
+ex: (1 s 4 (2 f (7))) -> (1 s 5 (3 f (7)))
+(defun f(x)
+(cond
+	((and (numberp x) (equal (mod x 2) 0))   (+ 1 x))
+	((atom x)                                x)
+	(t                                       (mapcar #'f x))
+)
+)
+[1,2,3,4,5,6,10] S = 10
+[[1,2,3,4], [4,6]]
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
