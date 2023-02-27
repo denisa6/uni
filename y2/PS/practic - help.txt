@@ -1,0 +1,51 @@
+confidence intervals:
+- alpha = 1 - confidence level
+- miu = population mean (to be found)
+- x = vector of data
+- n = length of x (sample size)
+- x cu bara deasupra = sample mean ( mean(x) )
+- sigma^2 = population variance (to be found)
+- s^2 (!= sigma^2) = sample variance ( var(x) )
+- sigma = population standard deviation (to be found)
+- s = sample standard deviation ( std(x) )
+- z = quantiles
+
+1. get x/n/alpha/sigma (depending pn the case)
+2. find "x cu bara deasupra"/s/s^2
+3. find the quantiles depending on the case from conf_int
+4. find the interval for the mean/variance
+5. (depending on the case)
+   find the interval for the standard deviation
+   = sqrt(the interval for the variance)
+
+
+significance level:
+- h0 = null hypothesis = previous experience
+- h1 = alternate hypothesis = future/alternative experience
+- alpha = significance level {0.05, 0.01, 0.1}
+- TS = test statistic
+- TS0 = observed value of the test statistic
+- RR = rejection region
+- P-value = minimum threshold of the rejection 
+(smallest alpha for which we still reject h0)
+
+- ztest = N law
+- ttest = T law
+- vartest = estimate sigma^2
+- vartest2 = for ration of two populations (sigma1^2/sigma2^2)
+- ztest2 or ttest2 = for miu1 - miu2 (depending on the law)
+
+*
+ztest(x, miu0, sigma, NAME, VALUE)
+NAME = {"alpha", "tail"}
+VALUE = {"left", "right", "both"}
+*
+
+1. [h, p, ci, z, zcrit] = ztest(x, miu0, sigma, "alpha", alpha, "tail", "left") (test might differ)
+2. z2 = norminv(alpha or whatever the param is) (or tinv, finv, chi2inv)
+3. find the rejection region
+4. the if concerning the hypothesis
+if h == 1 - the null hypothesis is rejected
+else      - the null hypothesis is not rejected
+
+5. print the rejection region (RR)/value of the statistic (z = TS0)/p-value (p) - from the test
