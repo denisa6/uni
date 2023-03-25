@@ -1,0 +1,31 @@
+body
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: #162741;
+	overflow: hidden;
+}
+.tableHeader{
+	background-color: #5e3850;
+}
+
+.collapsable td {
+	background-color: #8c7aa6;
+	visibility: visible;
+	opacity: 1;
+
+}
+
+.collapsable tr:nth-child(2):hover{
+	visibility: hidden;
+  	opacity: 0;
+  	transition: visibility 1000ms, opacity 0.5s linear;
+}
+/*
+.collapsable:hover td {
+	visibility: hidden;
+  	opacity: 0;
+  	transition: visibility 1000ms, opacity 0.5s linear;
+}*/
