@@ -1,0 +1,81 @@
+*
+.topnav {
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.topnav li{
+	position: relative;
+	display: inline;
+	text-align: center;
+}
+
+.topnav .menuSvg{
+	float: left;
+	line-height: 24px;
+	padding-top: 25px;
+	padding-right: 16px;
+	width: 25px;
+}
+
+.topnav .mainLogo{
+	float: left;
+	line-height: 24px;
+	width: 130px;
+	padding-right: 16px;
+}
+
+/* Style the links inside the navigation bar */
+.topnav .diffPages{
+	float: left;
+	font-family: Proxima Nova;
+	font-size: 16px;
+    color: #302d2a;
+    line-height: 24px;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    margin: 0px;
+    padding: 16px;
+    padding-top: 20px;
+    font-weight: 590;
+    font-style: normal;
+    font-variant: tabular-nums;
+    text-transform: none;
+    text-decoration: none solid rgb(15, 101, 239);
+    text-indent: 0px;
+}
+
+/* Change the color of links on hover */
+.topnav .diffPages:hover {
+  background-color: #ffffff;
+  color: #0F65EF;
+}
+
+.topnav .wishList{
+	line-height: 80px;
+	padding-left: 100px;
+	width: 25px;
+}
+
+.topnav .signIn{
+	font-family: Proxima Nova;
+	font-size: 16px;
+    color: #302d2a;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    margin: 0px;
+    font-weight: 590;
+    font-style: normal;
+    font-variant: tabular-nums;
+    text-transform: none;
+    text-decoration: none solid rgb(15, 101, 239);
+    text-indent: 0px;
+    padding-left: 16px;
+}
+
+.topnav .signIn:hover {
+  background-color: #ffffff;
+  color: #0F65EF;
+}
