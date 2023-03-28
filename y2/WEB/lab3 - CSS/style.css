@@ -1,0 +1,361 @@
+*
+.line {
+    border-top: 1px solid;
+    color: lightgray;
+    width: 100%;
+}
+
+.topnav {
+	display: flex;
+  	background-color: #ffffff;
+  	overflow: hidden;
+  	justify-content: center;
+  	align-items: center;
+  	padding-bottom: 0px;
+}
+
+.topnav li{
+	position: relative;
+	display: inline;
+	text-align: center;
+}
+
+.topnav .menuSvg{
+	padding-right: 16px;
+	width: 25px;
+}
+
+.topnav .mainLogo{
+	float: left;
+	line-height: 24px;
+	width: 130px;
+	padding-right: 16px;
+}
+
+/* Style the links inside the navigation bar */
+.topnav .diffPages{
+	float: left;
+	font-family: 'Montserrat', sans-serif;
+	font-size: 16px;
+    color: #302d2a;
+    line-height: 24px;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    margin: 0px;
+    padding: 16px;
+    padding-top: 20px;
+    font-weight: 590;
+    font-style: normal;
+    font-variant: tabular-nums;
+    text-transform: none;
+    text-decoration: none solid rgb(15, 101, 239);
+    text-indent: 0px;
+    font-weight: 700;
+}
+
+/* Change the color of links on hover */
+.topnav .diffPages:hover {
+  background-color: #ffffff;
+  color: #0F65EF;
+}
+
+.topnav .wishList{
+	line-height: 24px;
+	padding-left: 150px;
+	width: 25px;
+}
+
+.topnav .signIn{
+	font-family: 'Montserrat', sans-serif;
+	font-size: 16px;
+    color: #302d2a;
+    vertical-align: baseline;
+    letter-spacing: normal;
+    word-spacing: 0px;
+    margin: 0px;
+    font-weight: 590;
+    font-style: normal;
+    font-variant: tabular-nums;
+    text-transform: none;
+    text-decoration: none solid rgb(15, 101, 239);
+    text-indent: 0px;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-weight: 700;
+}
+
+.topnav .signIn:hover {
+  background-color: #ffffff;
+  color: #0F65EF;
+}
+
+.topnav .lolBadge{
+	position: relative;
+	padding-left: 20px;
+    z-index: 3;
+}
+
+.topnav .winBadge{
+	position: relative;
+    z-index: 2;
+    margin-left: -7px;
+}
+
+.topnav .trendingBadge{
+    position: relative;
+    z-index: 1;
+    margin-left: -7px;
+}
+
+.mainContent {
+	display: flex;
+	background-color: #ffffff;
+  	overflow: hidden;
+  	text-align: center;
+}
+
+.mainContent li{
+	position: relative;
+	display: inline;
+	text-align: center;
+}
+
+.mainContent .emptyLeft{
+	width: 100px;
+}
+
+.mainContent .emptyRight{
+	width: 150px;
+}
+
+.mainContent .leftColumn{
+	padding-top: 20px;
+}
+
+#mainLink{
+	text-decoration: none;
+}
+
+#firstPhoto{
+	width: 750px;
+	height: 250px;
+	padding-left: 10px;
+}
+
+#firstTitle{
+	font-family: 'Montserrat', sans-serif;
+	color: #222222;
+	width: 780px;
+	text-decoration: none;
+	padding-left: 35px;
+	font-size: 44px;
+	padding-top: 0px;
+	line-height: 48px;
+	vertical-align: baseline;
+	letter-spacing: normal;
+	word-spacing: 0px;
+	margin-top: 0px;
+	text-align: start;
+	font-weight: 700;
+}
+
+#firstTitle:hover{
+	color: #0F65EF;
+}
+
+#smallNews{
+	display: flex;
+	background-color: #ffffff;
+  	overflow: hidden;
+  	text-align: center;
+}
+
+#smallNews li{
+	position: relative;
+	display: inline;
+	text-align: center;
+	padding-right: 20px;
+}
+
+#smallNews a{
+	text-decoration: none;
+}
+
+#smallNews h4{
+	font-family: 'Montserrat', sans-serif;
+	color: #222222;
+	font-size: 12px;
+	line-height: 15.6px;
+	vertical-align: baseline;
+	letter-spacing: normal;
+	word-spacing: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0px;
+	font-weight: 600;
+	text-align: left;
+	text-indent: none;
+	margin-left: -40px;
+}
+
+#smallNews h2{
+	font-family: 'Montserrat', sans-serif;
+	color: #222222;
+	font-size: 16px;
+	line-height: 20px;
+	vertical-align: baseline;
+	letter-spacing: normal;
+	word-spacing: 0px;
+	margin-top: 0px;
+	padding: 0px;
+	font-weight: 700;
+	font-style: normal;
+	font-variant: tabular-nums;
+	text-align: left;
+	text-indent: 0px;
+	width: 230px;
+	margin-top: -10px;
+}
+
+#smallNews h2:hover{
+	color: #0F65EF;
+}
+
+#firstMiniPhoto{
+	width: 230px;
+}
+
+#secondMiniPhoto{
+	width: 230px;
+}
+
+#thirdMiniPhoto{
+	width: 230px;
+}
+
+.rightColumn{
+	padding-top: 20px;
+	padding-left: 10px;
+}
+
+#WhatsHappeningPng{
+	width: 250px;
+	position: relative;
+	z-index: 3;
+	margin-right: 40px;
+	margin-top: -20px;
+}
+
+#WhatsHappening{
+	z-index: 2;
+	padding: 0px;
+	border: 2px solid;
+  	box-shadow: 20px 10px #FFEE00;
+  	margin-top: -20px;
+}
+
+#WhatsHappening li{
+	padding-bottom: 10px;
+	padding-top: 20px;
+}
+
+#WhatsHappening a{
+	position: relative;
+	text-decoration: none;
+}
+
+#WHList {
+	display: flex;
+	background-color: #ffffff;
+  	overflow: hidden;
+  	text-align: center;
+}
+
+#WHList li{
+	position: relative;
+	display: inline;
+	text-align: center;
+	margin-left: -20px;
+}
+
+#WHPhoto1{
+	width: 130px;
+	padding-right: 10px;
+}
+
+#WHPhoto2{
+	width: 130px;
+	padding-right: 30px;
+	padding-top: 20px;
+}
+#WHPhoto3{
+	width: 130px;
+	padding-right: 30px;
+	padding-top: 20px;
+}
+
+#WHList h2{
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-family: 'Montserrat', sans-serif;
+	color: #222222;
+	font-size: 15px;
+	line-height: 20px;
+	vertical-align: baseline;
+	letter-spacing: normal;
+	word-spacing: 0px;
+	margin-top: 0px;
+	padding-right: 30px;
+	font-weight: 700;
+	font-style: normal;
+	font-variant: tabular-nums;
+	text-align: left;
+	text-indent: 0px;
+	width: 140px;
+	height: 100px;
+}
+
+#WHList h2:hover{
+	color: #0F65EF;
+}
+
+#smallLine {
+    border-top: 1px solid;
+    color: lightgray;
+    width: 100%;
+}
+
+#smallText{
+	display: flex;
+	background-color: #ffffff;
+  	overflow: hidden;
+}
+
+#smallText li{
+	position: relative;
+	display: inline;
+	text-align: center;
+}
+
+#time{
+	font-family: 'Montserrat', sans-serif;
+	color: #222222;
+	font-size: 12px;
+	line-height: 15.6px;
+	vertical-align: baseline;
+	letter-spacing: normal;
+	word-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	font-weight: 400;
+	text-align: left;
+	margin-top: 10px;
+	margin-left: -15px;
+}
+
+#dot{
+	color: #222222;
+	margin-top: 10px;
+	margin-left: -15px;
+}
