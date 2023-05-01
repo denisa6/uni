@@ -1,0 +1,22 @@
+<?php
+
+function OpenConnection(): mysqli{
+	$server = "127.0.0.1";
+	$user = "root";
+	$password = "";
+	$database = "books_database"
+
+	$con = mysql_connect($server, $user, $password, $database);
+
+	if(!$con){
+		die('Could not connect to DB');
+	}
+
+	return $con;
+}
+
+function CloseConnection(mysqli $con){
+	$con->close();
+}
+
+?>
