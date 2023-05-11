@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Add Book</h1>
+  <p><b>Please fill this form and submit to add the book to the library.</b></p>
+
+  <div class="formWrapper">
+    <input type="text" name="title" placeholder="Title:" #title required minlength="2"> <br>
+    <p id="er"> Not enough letters </p>
+    <input type="text" name="author" placeholder="Author:" #author> <br>
+    <input type="text" name="nrPages" placeholder="NrPages:" #nrPages> <br>
+    <input type="text" name="genre" placeholder="Genre:" #genre> <br>
+    <input type="text" name="borrowed" placeholder="Borrowed:" #borrowed> <br>
+    <div class="button_container">
+      <button
+        (click)="addBook(title.value, author.value, nrPages.value, genre.value, borrowed.value)">
+        Add Book
+      </button>
+      <button (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>

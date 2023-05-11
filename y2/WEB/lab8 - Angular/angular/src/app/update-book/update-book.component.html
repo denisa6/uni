@@ -1,0 +1,19 @@
+<div class="container">
+  <h1>Update Book</h1>
+  <p><b>Please fill this form and submit to update the book from the library.</b></p>
+
+  <div class="formWrapper">
+    <input id="title" type="text" name="title" placeholder="Title:" #title> <br>
+    <input type="text" name="author" placeholder="Author:" #author> <br>
+    <input type="text" name="nrPages" placeholder="NrPages:" #nrPages> <br>
+    <input type="text" name="genre" placeholder="Genre:" #genre> <br>
+    <input type="text" name="borrowed" placeholder="Borrowed:" #borrowed> <br>
+    <div class="button_container">
+      <button
+        (click)="updateBook(title.value, author.value, nrPages.value, genre.value, borrowed.value)">
+        Update Book
+      </button>
+      <button (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>
