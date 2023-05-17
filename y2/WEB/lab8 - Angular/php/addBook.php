@@ -21,9 +21,9 @@ if (isset($_POST['title']) && !empty(trim($_POST['title']))) {
     $nrPages = $request->nrPages;
     $genre = $request->genre;
     $borrowed = $request->borrowed;
-    $sql_query = "insert into book(title, author, nrPages, genre, borrowed) values ('$title', '$author', '$nrPages', '$genre', '$borrowed')";
     global $connection;
-    $result = mysqli_query($connection, $sql_query);
-    mysqli_close($connection);
+    $statement = $connection->prepare("insert into book(title, author, nrPages, genre, borrowed) values (?, ?, ?, ?, ?)");
+    $statement->bind_param("ssiss", $title, $author, $nrPages, $genre, $borrowed);
+    $statement->execute();
 }
 ?>
