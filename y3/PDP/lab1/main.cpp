@@ -4,7 +4,8 @@
 #include <vector>
 #include <random>
 #include <ctime>
-#include<atomic>
+#include <atomic>
+#include <windows.h>
 
 struct Product {
     std::string name;
@@ -71,6 +72,8 @@ void populateSupermarket() {
 bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
     int totalPrice = 0;
     std::vector<std::string> soldItems;
+    std::vector<int> soldQuantities;
+    
     for (int i = 0; i < productIds.size(); i++) {
         productMutaxes[productIds[i]].lock();
         
@@ -78,15 +81,16 @@ bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
             productMutaxes[productIds[i]].unlock();
             return false;
         }
-        if (supermarket[productIds[i]].quantity < quantities[i]) {
+        else if (supermarket[productIds[i]].quantity < quantities[i]) {
             productMutaxes[productIds[i]].unlock();
-            return false;
         }
-        totalPrice += supermarket[productIds[i]].unitPrice * quantities[i];
-        supermarket[productIds[i]].quantity = supermarket[productIds[i]].quantity - quantities[i];
-        soldItems.push_back(supermarket[productIds[i]].name);
-        
-        productMutaxes[productIds[i]].unlock();
+        else {
+            totalPrice += supermarket[productIds[i]].unitPrice * quantities[i];
+            supermarket[productIds[i]].quantity = supermarket[productIds[i]].quantity - quantities[i];
+            soldItems.push_back(supermarket[productIds[i]].name);
+            soldQuantities.push_back(quantities[i]);
+            productMutaxes[productIds[i]].unlock();
+        }
     }
     totalMoneyMutex.lock();
     totalMoney += totalPrice;
@@ -105,7 +109,7 @@ bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
 
 int main() {
     populateSupermarket();
-    int numThreads = 100;
+    int numThreads = 15;
     int numSalesPerThread = 10;
     productMutaxes = new std::mutex[supermarket.size()];
 
@@ -123,18 +127,19 @@ int main() {
                     quantitiesToBuy.push_back(quantity);
                 }
                 bool trySell = sellProduct(productsToBuy, quantitiesToBuy);
+                if (sales.size() % 3 == 0) {
+                    Sleep(1);
+                    checkInventory();
+                }
             }
         }
         );
     }
-    int count = 0;
+
     for (std::thread& thread : threads) {
-        thread.join();/*
-        if (count % 3 == 0) {
-            checkInventory();
-        }*/
-        count++;
+        thread.join();
     }
+
     std::cout << "\nfinal check\n";
     checkInventory();
     return 0;
