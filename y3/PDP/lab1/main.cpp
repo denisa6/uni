@@ -14,17 +14,17 @@ struct Product {
 };
 
 struct Bill {
-    std::vector<std::string> productsName;
+    std::vector<std::string> productNames;
     std::vector<int> quantities;
     int totalPrice;
 };
 
-std::vector<Product> supermarket;
+std::vector<Product> supermarketProducts;
 std::vector<Bill> sales;
-int totalMoney = 0;
+int aquiredMoney = 0;
 
-std::mutex* productMutaxes;
-std::mutex totalMoneyMutex;
+std::mutex* productsMutexes;
+std::mutex aquiredMoneyMutex;
 std::mutex billsMutex;
 std::mutex salesMutex;
 
@@ -36,35 +36,35 @@ int generateRandomNumber(int min, int max) {
 }
 
 void checkInventory() {
-    totalMoneyMutex.lock();
+    aquiredMoneyMutex.lock();
     billsMutex.lock();
     
     int calculatedAmount = 0;
     for (const auto& bill : sales) {
         calculatedAmount += bill.totalPrice;
     }
-    if (totalMoney == calculatedAmount) {
-        std::cout << "Inventory check passed.\n";
+    if (aquiredMoney == calculatedAmount) {
+        std::cout << "check passed :)\n";
     }
     else {
-        std::cout << "Inventory check failed!\n";
+        std::cout << "check failed :(\n";
     }
-    std::cout << "calculated amount from bills:  " << calculatedAmount << ", actual amount in the bank: " << totalMoney <<"\n";
+    std::cout << "calculated amount from bills:  " << calculatedAmount << ", actual amount in the bank: " << aquiredMoney <<"\n";
 
+    aquiredMoneyMutex.unlock();
     billsMutex.unlock();
-    totalMoneyMutex.unlock();
 }
 
 void populateSupermarket() {
-    std::vector<std::string> products = { "apples","bananas","chocolate","eggs","flour","milk","cheese","tomatoes","lettuce","pumpkin" };
-    for (int i = 0; i < products.size(); i++) {
+    std::vector<std::string> productNames = { "apples","bananas","chocolate","eggs","flour","milk","cheese","tomatoes","lettuce","pumpkin" };
+    for (int i = 0; i < productNames.size(); i++) {
         int quantity = generateRandomNumber(1, 100);
         int price = generateRandomNumber(1, 25);
         Product product;
-        product.name = products[i];
+        product.name = productNames[i];
         product.quantity = quantity;
         product.unitPrice = price;
-        supermarket.push_back(product);
+        supermarketProducts.push_back(product);
     }
     std::cout << "the supermarket was populated\n";
 };
@@ -75,29 +75,29 @@ bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
     std::vector<int> soldQuantities;
     
     for (int i = 0; i < productIds.size(); i++) {
-        productMutaxes[productIds[i]].lock();
+        productsMutexes[productIds[i]].lock();
         
-        if (productIds[i] < 0 || productIds[i] > supermarket.size() - 1) {
-            productMutaxes[productIds[i]].unlock();
+        if (productIds[i] < 0 || productIds[i] > supermarketProducts.size() - 1) {
+            productsMutexes[productIds[i]].unlock();
             return false;
         }
-        else if (supermarket[productIds[i]].quantity < quantities[i]) {
-            productMutaxes[productIds[i]].unlock();
+        else if (supermarketProducts[productIds[i]].quantity < quantities[i]) {
+            productsMutexes[productIds[i]].unlock();
         }
         else {
-            totalPrice += supermarket[productIds[i]].unitPrice * quantities[i];
-            supermarket[productIds[i]].quantity = supermarket[productIds[i]].quantity - quantities[i];
-            soldItems.push_back(supermarket[productIds[i]].name);
+            totalPrice += supermarketProducts[productIds[i]].unitPrice * quantities[i];
+            supermarketProducts[productIds[i]].quantity = supermarketProducts[productIds[i]].quantity - quantities[i];
+            soldItems.push_back(supermarketProducts[productIds[i]].name);
             soldQuantities.push_back(quantities[i]);
-            productMutaxes[productIds[i]].unlock();
+            productsMutexes[productIds[i]].unlock();
         }
     }
-    totalMoneyMutex.lock();
-    totalMoney += totalPrice;
-    totalMoneyMutex.unlock();
+    aquiredMoneyMutex.lock();
+    aquiredMoney += totalPrice;
+    aquiredMoneyMutex.unlock();
 
     Bill bill;
-    bill.productsName = soldItems;
+    bill.productNames = soldItems;
     bill.quantities = quantities;
     bill.totalPrice = totalPrice;
 
@@ -109,9 +109,9 @@ bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
 
 int main() {
     populateSupermarket();
-    int numThreads = 15;
+    int numThreads = 25;
     int numSalesPerThread = 10;
-    productMutaxes = new std::mutex[supermarket.size()];
+    productsMutexes = new std::mutex[supermarketProducts.size()];
 
     std::vector<std::thread> threads;
     for (int i = 0; i < numThreads; i++) {
@@ -121,13 +121,13 @@ int main() {
                 std::vector<int> productsToBuy;
                 std::vector<int> quantitiesToBuy;
                 for (int k = 0; k < nbProducts; k++) {
-                    int productId = generateRandomNumber(0, supermarket.size()-1);
+                    int productId = generateRandomNumber(0, supermarketProducts.size()-1);
                     int quantity = generateRandomNumber(1, 20);
                     productsToBuy.push_back(productId);
                     quantitiesToBuy.push_back(quantity);
                 }
                 bool trySell = sellProduct(productsToBuy, quantitiesToBuy);
-                if (sales.size() % 3 == 0) {
+                if (sales.size() % 5 == 0) {
                     Sleep(1);
                     checkInventory();
                 }
@@ -135,11 +135,9 @@ int main() {
         }
         );
     }
-
     for (std::thread& thread : threads) {
         thread.join();
     }
-
     std::cout << "\nfinal check\n";
     checkInventory();
     return 0;
