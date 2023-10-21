@@ -6,6 +6,7 @@
 #include <ctime>
 #include <atomic>
 #include <windows.h>
+#include <shared_mutex>
 
 struct Product {
     std::string name;
@@ -24,9 +25,8 @@ std::vector<Bill> sales;
 int aquiredMoney = 0;
 
 std::mutex* productsMutexes;
-std::mutex aquiredMoneyMutex;
-std::mutex billsMutex;
-std::mutex salesMutex;
+std::shared_mutex sharedAquiredMoneyMutex;
+std::shared_mutex salesMutex;
 
 int generateRandomNumber(int min, int max) {
     std::random_device rd;
@@ -36,8 +36,8 @@ int generateRandomNumber(int min, int max) {
 }
 
 void checkInventory() {
-    aquiredMoneyMutex.lock();
-    billsMutex.lock();
+    std::shared_lock<std::shared_mutex> lock(sharedAquiredMoneyMutex);
+    std::shared_lock<std::shared_mutex> lock2(salesMutex);
     
     int calculatedAmount = 0;
     for (const auto& bill : sales) {
@@ -49,10 +49,10 @@ void checkInventory() {
     else {
         std::cout << "check failed :(\n";
     }
-    std::cout << "calculated amount from bills:  " << calculatedAmount << ", actual amount in the bank: " << aquiredMoney <<"\n";
+    //std::cout << "calculated amount from bills:  " << calculatedAmount << ", actual amount in the bank: " << aquiredMoney <<"\n";
 
-    aquiredMoneyMutex.unlock();
-    billsMutex.unlock();
+    lock.unlock();
+    lock2.unlock();
 }
 
 void populateSupermarket() {
@@ -92,18 +92,18 @@ bool sellProduct(std::vector<int> productIds, std::vector<int> quantities) {
             productsMutexes[productIds[i]].unlock();
         }
     }
-    aquiredMoneyMutex.lock();
+    std::unique_lock<std::shared_mutex> lock(sharedAquiredMoneyMutex);
     aquiredMoney += totalPrice;
-    aquiredMoneyMutex.unlock();
+    lock.unlock();
 
     Bill bill;
     bill.productNames = soldItems;
     bill.quantities = quantities;
     bill.totalPrice = totalPrice;
 
-    salesMutex.lock();
+    std::unique_lock<std::shared_mutex> lock2(salesMutex);
     sales.push_back(bill);
-    salesMutex.unlock();
+    lock2.unlock();
     return true;
 }
 
