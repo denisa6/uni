@@ -1,0 +1,31 @@
+"Virtual Library" - mobile app for keeping track of your books
+
+1. Short description
+"Viirtual Library" is an easy to use app for keeping track of your books. The app helps the user keep track of the books that they own or hve read in a virtual format (ebook, pdfs, etc.). The user can change the status of their chosen book, add new books, remove books from their virtual library or display their books.
+
+2. Domain details
+Book: title, author, format, status, review
+title - the title of the book
+author - the name of the author
+format - physical/virtual
+status - not started/in progress/finished
+review - optional review of the book given by the user, it can be empty if the user if the user wants to
+
+3. CRUD operations
+- create: The user can add a new book. The user can input the title, author, format, status, review.
+- read: The user can see all the books.
+- update: The user can modify the title, authors, format, status or review of a book.
+- delete: The user can delete a book.
+
+4. Persistence details
+For all operations data is first modified on the local database and after that on the server.
+For all operations, changes are saved both locally and on the server.
+When doing the "read" operation data is fetched from both the local database and the server in order to double-check any discreptancy. 
+
+5. What happens when offline
+For all operations, when the user is offline the changes will only affect the local database. Once the user goes back online the local changes will pe applied to the server.
+Offline scenarios for the CRUD operations:
+- create: new books can be added but they will only be available locally until the user goes back online
+- read: the user can see the books he added locally when he was offline
+- update: the user can modify any book, the changes will be visible only locally until he goes back online
+- delete: the user can delete any book, the book will be deleted from the server when they go back online
