@@ -1,0 +1,10 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\amd64\Microsoft.Common.CurrentVersion.targets(5602,5): warning MSB3061: Unable to delete file "C:\Users\Denisa\Documents\Anul 1\Sem 2\OOP\A56\x64\Debug\A56.exe". Access to the path 'C:\Users\Denisa\Documents\Anul 1\Sem 2\OOP\A56\x64\Debug\A56.exe' is denied.
+C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppClean.targets(77,5): warning : Access to the path 'c:\users\denisa\documents\anul 1\sem 2\oop\a56\x64\debug\a56.exe' is denied.
+  Controller.cpp
+  main.cpp
+  Repository.cpp
+  Tutorial.cpp
+  UI.cpp
+  Generating Code...
+C:\Users\Denisa\Documents\Anul 1\Sem 2\OOP\A56\Repository.cpp(18): warning C4715: 'Repository::deleteTutorial': not all control paths return a value
+LINK : fatal error LNK1104: cannot open file 'C:\Users\Denisa\Documents\Anul 1\Sem 2\OOP\A56\x64\Debug\A56.exe'
