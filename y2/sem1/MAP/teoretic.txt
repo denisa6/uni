@@ -1,0 +1,169 @@
+!
+* overriding vs overloading
+Overriding occurs when the method signature is the same in the superclass and the child class. 
+Overloading occurs when two or more methods in the same class have the same name but different parameters.
+
+* static vs non static field
+Static variables or fields belong to the class, and not to any object of the class.
+A static variable is initialized when the class is loaded at runtime. 
+Non-static fields are instance fields of an object. 
+They can only be accessed or invoked through an object reference.
+
+!
+* static vs non-static methods
+A static method is a method that belongs to a class, but it does not belong to an instance of that class and this method can be called without the instance or object of that class. 
+Every method in java defaults to a non-static method without static keyword preceding it. 
+Non-static methods can access any static method and static variable, without creating an instance of the object.
+
+* abstract class
+An abstract class cannot be instantiated, but they can be subclassed. 
+When an abstract class is subclassed, the subclass usually provides implementations for all of the abstract methods in its parent class.
+The purpose of an abstract class is to provide a common definition of a base class that multiple derived classes can share.
+
+!
+* interface vs abstract class - maybe not enough
+The Abstract class and Interface both are used to have abstraction. 
+An abstract class contains an abstract keyword on the declaration whereas an 
+Interface is a sketch that is used to implement a class.
+An interface cannot have state, whereas the abstract class can have state with instance variables.
+
+* reference type vs primitive type
+A primitive variable's information is stored as the value of that variable, whereas a reference variable holds a reference to information related to that variable.
+
+!
+* checked vs unchecked exception
+A checked exception is caught at compile time whereas a runtime or unchecked exception is, as it states, at runtime. 
+A checked exception must be handled either by re-throwing or with a try catch block, whereas an unchecked isn't required to be handled.
+
+* wildcards
+The question mark (?) is known as the wildcard in generic programming. 
+It represents an unknown type. The wildcard can be used in a variety of situations such as the type of a parameter, field, or local variable; sometimes as a return type.
+When we use ?, the elements can be considered to be of type Object.
+When we use ? to declare an instance, the instance elements cannot be read or write, the only allowed operations are to read Object and to write null.
+
+* buffer/buffer operation/stream
+BUFFER
+A buffer is essentially a block of memory into which you can write data, which you can then later read again.
+Buffer types let you work with the bytes in the buffer as char, short, int, long, float or double.
+A Buffer has three properties:
+- Capacity: a certain fixed size. Once the Buffer is full, you need to empty it (read the data, or clear it) before you can write more data into it.
+- Position:
+WRITE MODE: Initially the position is 0. When a byte, long etc. has been written into the Buffer the position is advanced to point to the next cell in the buffer to insert data into. 
+Position can maximally become capacity – 1
+READ MODE: When you flip a Buffer from writing mode to reading mode, the position is reset back to 0. As you read data from the Buffer you do so from position, 
+and position is advanced to next position to read.
+- Limit
+WRITE MODE: is the limit of how much data you can write into the buffer and it is equal to the capacity of the Buffer
+READ MODE: is the limit of how much data you can read from the data. Therefore, when flipping a Buffer into read mode, limit is set to write position of the write mode. 
+In other words, you can read as many bytes as were written (limit is set to the number of bytes written, which is marked by position). (? what)
+
+STREAM
+A stream provides an interface to a sequenced set of values of a specific element type. 
+However, streams don’t actually store elements; they are computed on demand.
+Streams support SQL-like operations and common operations from functional programing languages, such as filter, map, reduce, find, match, sorted, and so on.
+
+
+* difference between threads and processes
+A process is an instance of a program that is being executed.
+A process can create other processes to perform multiple tasks at a time; the created processes are known as clone or child process, and the main process is known as the parent process.
+
+!
+A thread is the subset of a process and is also known as the lightweight process. 
+A process can have more than one thread, and these threads are managed independently by the scheduler. All the threads within one process are interrelated to each other.
+
+The process and thread are an independent sequence of execution, but both are differentiated in a way that processes execute in different memory spaces, whereas threads of the same 
+process execute in shared memory space.
+A process is independent and does not contained within another process, whereas all threads are logically contained within a process.
+Processes are heavily weighted, whereas threads are light-weighted.
+A process can exist individually as it contains its own memory and other resources, whereas a thread cannot have its individual existence.
+A proper synchronization between processes is not required. In contrast, threads need to be synchronized in order to avoid unexpected scenarios.
+Processes can communicate with each other using inter-process communication only; in contrast, threads can directly communicate with each other as they share the same address space.
+
+* what is multithreading
+Multithreading is a Java feature that allows concurrent execution of two or more parts of a program for maximum utilization of CPU. 
+Each part of such program is called a thread. So, threads are light-weight processes within a process.
+Advantages
+- faster on a multi-CPU system
+- even in a single CPU system, application can remain responsive by using worker thread runs concurrently with the main thread
+Disadvantages
+- program overhead and additional complexity
+- there are time and resource costs in both creating and destroying threads
+- the time required for scheduling threads, loading them onto the process, and storing their states after each time slice is pure overhead.
+- biggest cost: Since the threads in a process all share the same resources and heap, it adds additional programming complexity to ensure that they are not ruining each other's work.
+- debugging multithreaded programs can be quite difficult: the timing on each run of the program can be different; reproducing the same scheduling results is difficult
+
+* possible states of a thread
+A thread can be in only one state at a given point in time.
+NEW - A thread that has not yet started is in this state.
+RUNNABLE - A thread executing in the Java virtual machine is in this state.
+BLOCKED - A thread that is blocked waiting for a monitor lock is in this state.
+WAITING - A thread that is waiting indefinitely for another thread to perform a particular action is in this state.
+TIMED_WAITING - A thread that is waiting for another thread to perform an action for up to a specified waiting time is in this state.
+TERMINATED - A thread that has exited is in this state.
+
+* thread syncronization
+Thread synchronization is the concurrent execution of two or more threads that share critical resources. 
+Threads should be synchronized to avoid critical resource use conflicts. Otherwise, conflicts may arise when parallel-running threads attempt to modify a common variable at the same time.
+
+* what is a monitor model - not sure if enough
+A monitor is a collection of code (called the critical section) associated with an object (called the lock)
+At any time instant only one thread at most can has its execution point located in the critical section associated with the lock(mutual exclusion).
+Java allows any object to be the lock of a monitor.
+
+* what is event driven programming
+In computer programming, event-driven programming is a programming paradigm in which the flow of the program is determined by events such as user actions (mouse clicks, key presses), 
+sensor outputs, or message passing from other programs or threads.
+sau
+An event-driven application is a computer program written to respond to actions generated by a user or system. 
+In a computing context, an event is any identifiable occurrence that has significance for system hardware or software.
+
+* executor service - from lecture
+The java.util.concurrent.ExecutorService interface represents an asynchronous execution mechanism which is capable of executing tasks in the background.
+It is very similar to a thread pool. In fact, the implementation of ExecutorService present in the java.util.concurrent package is a thread pool implementation.
+
+* blocking queue
+BlockingQueue is a java Queue that support operations that wait for the queue to become non-empty when retrieving and removing an element, and wait for space to become available 
+in the queue when adding an element.
+BlockingQueue implementations are thread-safe. All queuing methods achieve their effects atomically using internal locks or other forms of concurrency control.
+
+* concurent collections
+idk
+
+!
+* semaphore
+Oprește thread urile până când se cumulează un anumit număr
+se formează o coada :
+primul thread își continuă execuția iar un nou thread ajunge la capătul cozii
+As semaphore typically has two uses: to guard a critical section against entry by more than N threads at a time and to send signals between two threads.
+
+* forkJoinPool - from lecture
+It is similar to the ExecutorService but with one difference.
+Implements the work-stealing strategy, i.e. every time a running thread has to wait for some result; the thread removes the current task from the work queue and executes some other task
+ready to run. 
+This way the current thread is not blocked and can be used to execute other tasks. 
+Once the result for the originally suspended task has been computed the task gets executed again and the join() method returns the result.
+A call of fork() will start an asynchronous execution of the task.
+A call of join() will wait until the task has finished and retrieve its result.
+Makes it easy for tasks to split their work up into smaller tasks(divide and conquer approach) which are then submitted to the ForkJoinPool too.
+
+!
+* countDownLatch
+A synchronization aid that allows one or more threads to wait until a set of operations being performed in other threads completes.
+A CountDownLatch is initialized with a given count. 
+
+!
+* cyclicBarrier
+Is a synchronization mechanism that can synchronize threads progressing through some algorithm.
+It is a barrier that all threads must wait at, until all threads reach it, before any of the threads can continue.
+Once N threads are waiting at the CyclicBarrier, all threads are released and can continue running
+Bariera - oprește thread urile până când ajung toate la un anumit punct predefinita din cod
+
+* lock
+A lock is a tool for controlling access to a shared resource by multiple threads. 
+Commonly, a lock provides exclusive access to a shared resource: only one thread at a time can acquire the lock and all access to the shared resource requires that the lock be 
+acquired first. However, some locks may allow concurrent access to a shared resource, such as the read lock of a ReadWriteLock.
+
+!
+* atomic variables
+Atomic variables are a way to prevent other threads from using a variable while we're in the middle of modifying it, so we can ensure that other threads can observe or modify 
+the state only before start or after we finish, but no in the middle.

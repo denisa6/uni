@@ -1,0 +1,74 @@
+3. Return the number of levels of a tree of type (1).
+type (1) ex: (a 2 b 1 c 0 d 0) 
+
+-------------------------------------- mathematical model ---------------------------------
+nv - number of vertices
+ne - number of edges
+
+leftSubtree_helper(tree, nv, ne) = {
+	null, if tree is empty
+	null, if ne+ 1 = nv
+	tree1 & tree2 & leftSubtree_helper(tree3 ... treen, nv + 1, ne + tree2), otherwise
+}
+
+leftSubtree(tree) = leftSubtree_helper(tree, 0, 0).
+
+
+rightSubtree_helper(tree, nv, nm) = {
+	null, if tree is empty
+	tree, if ne + 1 = nv
+	rightSubtree_helper(tree3 ... treen, nv + 1, ne + tree2), otherwise
+}
+
+rightSubtree(tree) = rightSubtree_helper(tree, 0, 0).
+
+maxL(a, b) = {
+	a, a > b
+	b, otherwise
+}
+
+nr_levels(tree) = {
+	0, if tree is null
+	1 + max(nr_levels(leftSubtree(tree)), nr_levels(rightSubtree(tree))), otherwise
+}
+
+---------------------------------------- lisp implementaiton --------------------------------
+
+(defun leftSubtree_helper(tree nv ne)
+(cond
+    ((null tree) nil)
+    ((= nv (+ 1 ne)) nil)
+    (t (cons (car tree) (cons (cadr tree) (leftSubtree_helper (cddr tree) (+ 1 nv) (+ (cadr tree) ne)))))
+)
+)
+
+(defun leftSubtree(tree)
+    (leftSubtree_helper (cddr tree) 0 0)
+)
+
+(defun rightSubtree_helper(tree nv ne)
+(cond
+    ((null tree) nil)
+    ((= nv (+ 1 ne)) tree)
+    (t (rightSubtree_helper (cddr tree) (+ 1 nv) (+ (cadr tree) ne)))
+)
+)
+
+(defun rightSubtree(tree)
+    (rightSubtree_helper (cddr tree) 0 0)
+)
+
+
+(defun maxL(a b)
+(cond
+    ((> a b) a)
+    (t b)
+)
+)
+
+(defun nr_levels(tree)
+(cond
+    ((null tree) 0)
+    ((+ 1 (maxL (nr_levels(leftSubtree tree)) (nr_levels(rightSubtree tree)))))
+)
+)

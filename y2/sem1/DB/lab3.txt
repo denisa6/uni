@@ -1,0 +1,190 @@
+USE BookStore;
+
+-- a. modify the type of column
+GO
+CREATE OR ALTER PROCEDURE setCostFromPhysicalSalesFloat
+AS
+    ALTER TABLE PhysicalSales ALTER COLUMN cost FLOAT
+
+GO
+CREATE OR ALTER PROCEDURE setCostFromPhysicalSalesInt
+AS
+	ALTER TABLE PhysicalSales ALTER COLUMN cost INT
+
+-- b. add/remove a column
+GO
+CREATE OR ALTER PROCEDURE addCountryToAuthors 
+AS
+	ALTER TABLE Authors ADD country VARCHAR(100)
+
+GO
+CREATE OR ALTER PROCEDURE removeCountryFromAuthors
+AS
+	ALTER TABLE Authors DROP COLUMN country
+
+-- c. add/remove a DEFAULT constraint
+GO
+CREATE OR ALTER PROCEDURE addDefaultToStockFromBooks
+AS
+	ALTER TABLE Books ADD CONSTRAINT default_stock DEFAULT(0) FOR stock
+
+GO
+CREATE OR ALTER PROCEDURE removeDefaultFromStockFromBooks
+AS
+	ALTER TABLE Books DROP CONSTRAINT default_stock
+
+-- g. create/drop a table
+GO
+CREATE OR ALTER PROCEDURE addCoupons
+AS
+	CREATE TABLE Coupons (
+		coupon_id INT,
+		coupon_name VARCHAR(100) NOT NULL,
+		CONSTRAINT COUPONS_PRIMARY_KEY PRIMARY KEY(coupon_id),
+		expiration_date INT
+	)
+
+GO 
+CREATE OR ALTER PROCEDURE dropCoupons
+AS
+	DROP TABLE Coupons
+
+-- d. add/remove a primary key
+GO
+CREATE OR ALTER PROCEDURE addCouponNamePrimaryKeyCoupons
+AS
+	ALTER TABLE Coupons
+		DROP CONSTRAINT COUPONS_PRIMARY_KEY
+	ALTER TABLE Coupons
+		ADD CONSTRAINT COUPONS_PRIMARY_KEY PRIMARY KEY(coupon_name)
+
+GO 
+CREATE OR ALTER PROCEDURE removeCouponNamePrimaryKeyCoupons
+AS
+	ALTER TABLE Coupons
+		DROP CONSTRAINT COUPONS_PRIMARY_KEY
+	ALTER TABLE Coupons
+		ADD CONSTRAINT COUPONS_PRIMARY_KEY PRIMARY KEY(coupon_id)
+
+
+-- e. add/remove a candidate key
+GO
+CREATE OR ALTER PROCEDURE newCandidateKeyAuthors
+AS	
+	ALTER TABLE Authors
+		ADD CONSTRAINT AUTHORS_CANDIDATE_KEY UNIQUE(first_name, last_name)
+
+GO
+CREATE OR ALTER PROCEDURE removeCandidateKeyAuthors
+AS
+	ALTER TABLE Authors
+		DROP CONSTRAINT AUTHORS_CANDIDATE_KEY
+
+
+-- f. add / remove a foreign key
+GO
+CREATE OR ALTER PROCEDURE newForeignKeyCoupons
+AS
+	ALTER TABLE Coupons
+		ADD CONSTRAINT COUPONS_FOREIGN_KEY FOREIGN KEY(expiration_date) REFERENCES Dates(date_id)
+
+GO
+CREATE OR ALTER PROCEDURE removeForeignKeyCoupons
+AS
+	ALTER TABLE Coupons
+		DROP CONSTRAINT COUPONS_FOREIGN_KEY
+
+
+
+--------------------------------------------------------------------------------
+
+-- a table that contains the current version of the database schema
+
+CREATE TABLE versionTable (
+	version INT
+)
+
+INSERT INTO versionTable 
+VALUES
+	(1) -- this is the initial version
+
+
+-- a table that contains the initial version, the version after the execution of the procedure and the procedure that changes the table in this way
+CREATE TABLE procedureTable (
+	initial_version INT,
+	final_version INT,
+	procedure_name VARCHAR(MAX),
+	PRIMARY KEY (initial_version, final_version)
+)
+
+INSERT INTO procedureTable
+VALUES
+	(1, 2, 'setCostFromPhysicalSalesFloat'),
+	(2, 1, 'setCostFromPhysicalSalesInt'),
+	(2, 3, 'addCountryToAuthors'), 
+	(3, 2, 'removeCountryFromAuthors'),
+	(3, 4, 'addDefaultToStockFromBooks'),
+	(4, 3, 'removeDefaultFromStockFromBooks'),
+	(4, 5, 'addCoupons'),
+	(5, 4, 'dropCoupons'),
+	(5, 6, 'addCouponNamePrimaryKeyCoupons'),
+	(6, 5, 'removeCouponNamePrimaryKeyCoupons'),
+	(6, 7, 'newCandidateKeyAuthors'),
+	(7, 6, 'removeCandidateKeyAuthors'),
+	(7, 8, 'newForeignKeyCoupons'),
+	(8, 7, 'removeForeignKeyCoupons')
+
+
+-- procedure to bring the database to the specified version
+GO
+CREATE OR ALTER PROCEDURE goToVersion(@newVersion INT) 
+AS
+	DECLARE @current_version INT
+	DECLARE @procedureName VARCHAR(MAX)
+	SELECT @current_version = version FROM versionTable
+
+	IF (@newVersion > (SELECT MAX(final_version) FROM procedureTable) OR @newVersion < 1)
+		RAISERROR ('Bad version', 10, 1)
+	ELSE
+	BEGIN
+		IF @newVersion = @current_version
+			PRINT('You are already on this version!');
+		ELSE
+		BEGIN
+			IF @current_version > @newVersion
+			BEGIN
+				WHILE @current_version > @newVersion 
+					BEGIN
+						SELECT @procedureName = procedure_name FROM procedureTable WHERE initial_version = @current_version AND final_version = @current_version-1
+						PRINT('Executing ' + @procedureName);
+						EXEC (@procedureName)
+						SET @current_version = @current_version - 1
+					END
+			END
+
+			IF @current_version < @newVersion
+			BEGIN
+				WHILE @current_version < @newVersion 
+					BEGIN
+						SELECT @procedureName = procedure_name FROM procedureTable WHERE initial_version = @current_version AND final_version = @current_version+1
+						PRINT('Executing ' + @procedureName);
+						EXEC (@procedureName)
+						SET @current_version = @current_version + 1
+					END
+			END
+
+			UPDATE versionTable SET version = @newVersion
+		END
+	END
+
+EXEC goToVersion 2
+
+SELECT *
+FROM versionTable
+
+SELECT *
+FROM procedureTable
+
+select*from Authors
+select*from Books
+INSERT INTO Books (title, publisher_id, publishing_date_id) VALUES ('The golden compass', 2, 4);

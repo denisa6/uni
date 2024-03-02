@@ -1,0 +1,267 @@
+LECTURE 1
+- Transaction: user defined unit of execution that contains a sequence of operations on a DB
+- ACID:
+	- Atomicity: all operations in a transaction are carried out or none are
+	- Consistency: a transaction preserves the consistency of the DB
+	- Isolation: a transaction is protected from the effects of concurent transactions
+	- Durability: the effects of a successfully completed transaction are guaranted to be a permanent part of the DB even if the system crashes before all these changes have been written 		      to disk
+- Schedule: an ordered list of operations from a set of transactions with a property that the order of the operations of each individual transaction is preserved
+	- Serial Schedule: you execute them in the correct order, their actions are not interlinked)
+	- Non-Serial Schedules: their actions are interlinked
+
+
+LECTURE 2
+- Conflict serializability implies serializability
+- Procedure graph: a node for each transaction + arc from Ti to Tj (if Ti reads/writes/writes object A before Tj reads/reads/writes object A)
+- SLock: shared or read lock (read)
+- XLock: exclusive or write lock (read + write)
+
+
+LECTURE 3
+- Exclusize Lock (W) & Shared Lock (R)
+- Locking protocols:
+	- Strict 2-Phase Locking
+		- every trans requires an X locks for a resource, if it can't attain sayd X lock the transaction is suspended
+		- a transaction releases all of its locks only when it completes execution
+	- 2-Phase Locking: 
+		- a transaction can release a lock before it completes execution
+		- once a transaction releases a lock, it cannot request other locks
+- Deadlocks (T1 wants to access an object locked by T2)
+	- Prevention:
+		- Wait-die: if T1's priority is higher, T1 can wait, otherwise, T1 is aborted
+		- Wound-wait: if T1's priority is higher, T2 is aborted, otherwise, T1 can wait
+	- Detection (Waits-for graph, timeout mechanism):
+		- Waits-for graph: cycle in the graph = deadlock
+		- Timeout mechanism: if a transaction has been waiting for too long for a lock on an object, a deadlock is assumed to exist and T is terminated
+- Isolation Levels: determines the degree to which a transaction is exposed to the operations of the other concurrently running transactions
+	- Read Uncommitted: T can read data modified by an ongoing transaction (uncommitted data)
+	- Read Committed: T can only read committed data + an object read by T can be changed by another transaction while T is in progress
+	- Repeatable Read: T can only read committed data + no object read by T can be changed by another transaction while T is in progress 
+	- Serializable: T can only read committed data + no object read by T can be changed by another transaction while T is in progress + if T reads a set of objects based on a search predicate, this set cannot be changed by other transactions while T is in progress
+- Dirty Write: T1 modifies an object previosly written by an ongoing transaction T2
+
+
+LECTURE 4
+- Transaction failure:
+	- system failure: bugs in the OS or DB, hardware failure
+	(- all running transactions terminate
+	- contents of internal memory - affected
+	- contents of external memory - not affected)
+	- application error: bugs like division by 0 or infinite loop (transaction fails, it should be executed again only after the error is corrected)
+	- action by the Transaction Manager
+	(- deadlock resolution scheme
+	- a transaction is chosen as the deadlock victim and terminated
+	- the transaction might complete successfully if executed again)
+	- self-abort: abort, rollback
+- Writing Objects Options:
+	- Steal: T's changes can be written to disk before it commits
+	- No-Steal: T's changes cannot be written to disk when it commits
+	- Force: T's changes are immediately forced to disk when it commits
+	- No-Force: T's changes are not forced to disk when it commits
+- Storage Media:
+	- Volatile: information doesn't usually system crashes
+	- Non-Volatile: information survives system crashes
+	- Stable: information is never lost
+
+
+LECTURE 5
+- System restart after a crash: Analysis - Redo - Undo
+- System crash during Analysis:
+	- all work is lost
+	- when a system comes back up, the Analysis phase has the same information as before
+- System crash during Redo:
+	- some of the changes from Redo pass may have been written to disk prior to the crash
+	- the pageLSN will indicate such a situation, so these changes will not be reapplied in the subsequent Redo pass
+- Aborting a transaction: special case of Undo in which the actions of a single transaction are undone
+
+
+LECTURE 6
+- Clearence Level => for users
+- Classification level => for objects
+- Security: protecting the data against unauthorized users (who may want to read, modify destroy the data)
+- Integrity: protecting the data against authorized users, the consistency of the DB must be maintained at all times
+- Priviledges for discretionary control: Retrieve - Insert - Delete - Update - Trigger -  References
+	- Trigger: allows user to create a trigger on table O
+	- References: allows the user to refer to O in an integrity constraint
+- Bell and La Padula rules:
+	- user x can retrieve object y if clearence level of x >= the classification level of y
+	- user x can update object y only if the clearence level of x = the classification level of y
+- Cryptography: transposition (anagrams) & substitution
+- Substitution:
+	- Plaintext: message before encryption
+	- Ciphertext: message after encryption
+	- Plain Alphabet: used to write the message
+	- Cipher Alphabet: used to encrypt the message
+
+
+LECTURE 7
+- Selection: selects a subset of records from a relation
+- Projection: eliminates certain columns from a relation
+
+- Simple Nested Loops Join: for each record in the outer relation, scan the entire inner relation
+	- Cost: M + pE * M * N (M, pE - for outer; N, pS - for inner)
+- Page Oriented Nested Loops Join: for each page in the outer relation read each page in the inner
+	- Cost: M + M*N
+- Block Nested Loops Join: outer relation is scanned once, inner relation is scanned once for every block in the outer relation
+	- Cost: scan of outer table + nr blocks in outer table * scan of inner table
+	- nr blocks in outer table = number of pages in outer table / size of block
+- Indexed Nested Loops Join: if there is an index on the join column of S, S can be considered as inner table and the index can be used
+	- Cost: M + ((M * pE) * cost of finding corresponding records in S)
+
+- Simple Two-Way Merge Sort:
+	- uses 3 buffer pages
+	- passes over the data multiple times
+	- can sort large data collections using a small amount of main memory
+	- Steps:
+		- read in page P -> sort page p -> save page P to disk
+		- use 3 buffer pages
+		- read and merge pairs of runs from previous pass
+		- produce runs that are twice as long
+	- Number of passes: log2(N) + 1
+	- Cost: 2 * N * number of passes
+- External Merge Sort:
+	- Number of runs: [number of pages in the file (N)/ available buffer pages (B)]
+	- Number of passes: logB-1(N/B) + 1
+	- Cost: 2 * N * (logB-1(N/B) + 1)
+
+
+LECTURE 8
+- Sort Merge Join:
+	- Sort E and S on the join column (if not already sorted)
+	- Merge E and S (look for tuples e in E, s in S such that <<condition>>)
+	- Cost:
+		- Sorting E: O(MlogM)
+		- Sorting S: O(NlogN)
+		- Merge E & S: M + N
+		- WCS: O(M * N)
+- Hash Join:	
+	- Partitioning:
+		- use one page as the input buffer page
+		- use the remaining B - 1 pages as output buffer pages
+	- Chose a hash function h
+	- Hash E and S on the join column with h
+	- Read in a partition of the smaller relation (ex: E) and scan the corresponding partition of the other relation (ex: R) for matching tuples
+	- Use one page as the input buffer for S, one page as the output buffer, and the rest to read partitions of E
+	- Cost: 3 * (M + N)
+
+
+LECTURE 9
+- Query Evaluation Plans:
+	- Page-Oriented Nested Loops Join
+	- Selection & projection applied on-the-fly to each tuple in the join result, the result of the join is not sorted
+- Pipeline Evaluation:
+	V1 - materialization
+	- Evaluate first selection
+	- Write out result tuples to temporary relation R
+	- Apply the 2nd selection to R
+	- Cost: read & write R
+	V2 - pipeline evaluation
+	- Apply the 2nd selection to each tuple in the result of the 1st selection as it is produced
+	- 2nd selection operator is applied on-the-fly
+	- Saves the cost of writing out/reading in the temporary relation R
+- Relational Algebra Equivalences:
+	- Central role in generating alternative plans
+	- Different join orders can be considered
+	- Selections, projections can be pushed head of joins
+	- Cross-products can be converted to joins
+	- Can commute Selection with Projection (if they use the same attr)
+	- Selection + X (cross-prod(?)) = Join
+- Selections: cascading, commutative
+- Projections: cascading
+- Joins & Cross-Products: associative, commutative
+
+
+LECTURE 10
+- Plans that use an index:
+	- Single-index access path
+	- Multiple-index access path
+	- Sorted-index access path
+	- Index-only access path
+- Centralized DB systems:
+	- all data at a single site
+	- each transaction is processed sequentially
+	- centralized lock management
+	- processor fails -> entire system fails
+- Distributed systems:
+	- the data is stored at several sites
+	- each site is managed by a DBMS that can run independently
+	- distributed data independence
+	- distributed transaction automicity
+- Types of Distributed Databases:
+	- homogeneous: the same DBMS software at every site
+	- heterogeneous: different DBMSs at different sites
+- Updating Distributed Data:
+	- Voting (Sync):
+		- to modify object O, a transaction T1 must write a majority of its copies
+		- when reading O, a transaction T2 must read enough copies to make sure it's seeing at least one current copy
+	- Read-any write-all (Sync):
+		- transaction T1 modifies O: T1 must write all copies of O
+		- transaction T2 reads O: T2 can read any copy of O (it will see current data, as T1 wrote all copies of O)
+	- Peer-to-peer (Async):
+		- several copies of an object O can be master copies
+		- changes to a master copy are propagated to the other copies of object O
+	- Primary site (Async):
+		- exactly one copy of an object O is chosen as the primary (master) copy, this copy is published at the primary site
+		- secondary copies of the object can be created at other sites
+
+
+LECTURE 11
+- td: time to read / write a page from / to disk
+- ts: time to ship a page from one site to another 
+- Distributed concurrency control - distributed deadlock:
+	- centralized:
+		- all the local waits-for graphs are periodically sent to a single site S
+		- S is responsible for global deadlock detection
+		- the global waits-for graph is generated at site S
+	- hierarchical:
+		- sites are organized into hierarchy
+		- each site periodically sends its local waits-for graph to its parent site
+		- all the deadlocks are detected in the end
+	- timeout mechanism:
+		- a transaction is aborted if it lasts longer than a specified interval
+		- can lead to unnecessary restarts
+		- deadlock detection overhead is low
+		- could be the only available option in a heterogeneous system
+- Phantom deadlocks: "deadlocks" that don't exist, but are detected due to delays in propagating local information; lead to unnecessary aborts
+- RF: reduction factor
+
+
+LECTURE 12
+- Parallel Database Systems:
+	- performance improvement
+	- data can be distributed, but distribution is dictated solely by performance reasons
+
+(Architectures)
+- Shared-Memory:
+	- several CPUs
+	- attached to an interconnection network
+	- can access a common region in the main memory
+- Shared-Disk:
+	- a CPU
+	- its own private memory
+	- can access all disks through a network
+- Shared-Nothing:
+	- a CPU: its own local main memory, its own disk space
+	- 2 different CPUs cannot access the same storage area
+	- CPUs communicate through a network
+	- more transactions can be executed per second
+
+
+
+
+- Write Read Conflict: reads first, write second
+- Read Write Conflict: writes first, reads second
+
+
+
+
+
+
+
+
+
+
+
+
+
+

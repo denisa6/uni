@@ -1,0 +1,125 @@
+------------------------------------- mathematical model ----------------------------------------------------
+a) Write a function to insert an element E on the n-th position of a linear list.
+insertE(l,E,p,n) = {
+	null, list is empty
+	e & insertE(l1 ... ln, e, p+1, n), if p == n
+	l1 & insertE(l2 ... ln, e, p+1, n), otherwise
+}
+*
+cons = concatenates
+It takes two arguments, an element and a list and returns a list with the element inserted
+at the first place.
+*
+
+
+b) Write a function to return the sum of all numerical atoms of a list, at any level.
+sumElem(l) = {
+	null, list is empty
+	l1 + sumElem(l2 ... ln), if l1 is number
+	sumElem(l1) + sumElem(l2 ... ln), if l1 is list
+	sumElem(l2 ... ln), otherwise
+}
+
+
+c) Write a function to return the set of all sublists of a given linear list. 
+Ex. For list ((1 2 3) ((4 5) 6)) => ((1 2 3) (4 5) ((4 5) 6)) 
+a(l m) = {
+	m, if l is empty
+	l1 & a(l2...ln, m), otherwise
+}
+setS(l) = {
+	null, list is empty
+	a( a(l1, setS(l1)), setS(l2 .. ln)), if l1 list
+      setS(l2 ... ln), otherwise
+}
+
+
+d) Write a function to test the equality of two sets, without using the difference of two sets.
+nrOcc(s, e) = {
+	0, if list is empty
+	1 + nrOcc(s2 .. sn, e), if s1 == e
+      nrOcc(s2 .. sn, e), otherwise
+}
+
+equalSets(s1, s2) = {
+	true, if s1 is empty
+	false, if nrOcc(s2,s1.1) == 0
+	equalSets(s1.2 ... s1.n, s2), otherwise
+}
+
+functionD(s1,s2) = {
+	true, if equalSets(s1,s2) is true & equalSets(s2,s1) is true
+	false, otherwise
+}
+
+
+
+----------------------------------------------------- lisp implementation ------------------------------------------
+
+;a) insert E on the n-th position of a linear list
+(defun insertE(l E p n)
+(cond
+    ((null l)         nil)
+    ((equal p n)      (cons e (insertE l e (+ 1 p) n)))
+    (t (cons (car l)  (insertE (cdr l) e (+ 1 p) n)))
+)
+)
+
+(defun functionA(l E n)
+(cond
+    (t    (insertE l E 1 n))
+)
+)
+
+
+;b) return the sum of all numerical atoms of a list, at any level
+(defun sumElem(l)
+(cond
+    ((null l)          0)
+    ((numberp (car l)) (+ (car l) (sumElem (cdr l))))
+    ((listp (car l))   (+ (sumElem (car l)) (sumElem (cdr l))))
+    (t (sumElem        (cdr l)))
+)
+)
+
+
+;c) return the set of all sublists of a given linear list
+;good version of c
+(defun a(l ll)
+  (cond
+   ((null l) ll)
+   (t (cons (car l ) (a (cdr l) ll)))
+   )
+)
+(defun setS(l)
+(cond
+    ((null l) nil)
+    ((listp (car l))   (a (a (list(car l)) (setS (car l))) (setS (cdr l))))
+    (t                 (setS (cdr l)))
+)
+)
+
+
+;d) test the equality of two sets, without using the difference of two sets
+(defun nrOcc(s e)
+(cond
+    ((null s)              0)
+    ((equal (car s) e)    (+ 1 (nrOcc (cdr s) e)))
+    (t                    (nrOcc (cdr s) e))
+)
+)
+
+(defun equalSets(s1 s2)
+(cond
+    ((null s1)  t)
+    ((equal 0 (nrOcc s2 (car s1)))  nil)
+    (t          (equalSets (cdr s1) s2))
+)
+)
+
+(defun functionD(s1 s2)
+(cond
+    ((equalSets s1 s2) (equalSets s2 s1))
+    (t nil)
+)
+)
