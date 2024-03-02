@@ -1,0 +1,116 @@
+- Explain why when using the sigmoid activation function your architecture might face the vanishing gradient problem.
++ When trying to do backpropagation, the gradient becomes so small the network can't actually learn anything.
+
+- What is the purpose of the forget gate in an LSTM? What activation function does it use and why?
++ The purpose of the forget gate in a LSTM is to select whether to remember or forget information from the past, it uses sigmoid as
+an activation function because it outputs elems between [0, 1] and acts as a binary switch like 0 means "forget" and 1 means "remember".
+
+- You have developed a U-Net like segmentation network. Can you feed to this module images of different sizes (without using pre-processing, i.e. resizing)? Explain your answer.
++ You shouldn't feed images of different sizes because:
+	- U-Net has a fixed number of layers, each with a specific input size, it is designed to process images of a particular size
+	- processing images of different sizes without resizing can be memory-intensive and computationally inefficient
+	- networks are optimized for a specific input size, deviating from that might lead to slower computations
+	- the loss function used for training segmentation networks often assumes a specific size for both predictions and ground truth masks, diff size img might
+	  make it difficult to compute meaningful loss
+
+- You want to develop a generative model to create images of landscapes, but you want to control the type of the landscape to be generated (the type can be: plain, mountain, littoral zone, taiga or tundra). How can you integrate this additional information in both the encoder and the decoder network?
++ Along side the input image include a one hot encoding vector representing the landscape
+  Merge the additional information with the features extracted from the input image
+  As part of the decoder input, include the one-hot encoded vector
+  Nush whatever
+
+- You want to develop a model to estimate the gender and the age of a person.
+	- How would you solve this problem with a single CNN? How would you organize the output of the network?
+	- What loss function would you use?
+	- How would you pre-process the images?
+	- What metrics would you use to evaluate your method?
++ Multi-task learning approach for CNN
+	- CNN that extract features, one branch specifically for gender prediction, one branch for age prediction;
+	  Output: combination of gender + age prediction, 2 output neurons for male/female, several output neurons for diff age groups
+	- Gender Loss: Binary Cross Entropy
+	  Age Loss: Categorical Cross Entropy
+	  Total Loss: combine gender + age loss
+	- Preprocessing: resize + normalize
+	- Gender: Accuracy
+	  Age: Accuracy
+	  Maybe make a combined metric that takes into account both age and gender prediction
+
+- Given the following input apply a depthwise separable convolution layer with no padding and a stride of 2. For the depthwise convolution use the filter D and for the pointwise convolution use the filter P.
+I: 
+10	20	1	30	4
+34	5	3	2	0
+8	9	30	8	0
+2	10	30	40	39
+0	0	0	12	3
+
+6	10	40	30	10
+5	6	8	10	2
+2	10	3	20	10
+2	10	30	4	10
+2	4	20	40	2
+
+D:
+4	2	3
+1	1	4
+1	2	3
+		
+0	1	1
+1	0	2
+0	0	0
+
+P:
+0.2	0.5
+
+R: (?)
+185.5
+222.9
+
+40.2
+55.0
+
+
+- You have a simple convolutional neural network that takes as input a 28x28 grayscale image and has the following topology:
+	- 3x3 convolution valid with 32 filters
+	- max pooling layer of size (2x2) with a stride of 2
+	- dense layer with size 100
+	- dense layer with size 10
+  How many parameters does this network have? Detail per layer the number of parameters.
++ 1. ((shape of width of filter*shape of height filter*number of filters in the previous layer+1)*number of filters)
+     (3x3x1+1) * 32 = 320
+  2. no params = 0
+  3. (number of neurons in previous layer) * (number of neurons in this layer) + 1 * (number of neurons in this layer)
+     (13x13x32) * 100 + 100 = 540 900
+  4. (100) * 10 + 10 = 1010
+320 + 0 + 540 900 + 1010 = 542 230
+/*
+input shape: 28x28x1
+after filter: 26x26x32 (asume stride = 1)
+after max pool: 13x13x32
+after dense layer 1: 100x1x1
+after dense layer 2: 10x1x1
+
+output size calculation for filter and max pool layer:
+(og h/w - h/w of filter)/stride + 1
+*/
+
+
+- You developed a binary classifier and have the following predictions:
+
+Ground truth	Prediction
+Positive	0.3  FN
+Positive	0.8  TP
+Positive	0.2  FN
+Negative	0.25 TN
+Negative	0.9  FP
+Negative	0.4  TN
+
+Use a threshold of 0.5: what is the precision, recall and accuracy of the model?
++ Precision: TP/(TP + FP) = 1/2
+  Recall: TP/(TP + FN) = 1/3
+  Accuracy: (TP + TN)/(TP + TN + FP + FN) = 3/6 = 1/2
+
+TP = 1
+TN = 2
+FP = 1
+FN = 2
+

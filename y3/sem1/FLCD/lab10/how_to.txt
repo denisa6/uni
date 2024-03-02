@@ -1,0 +1,4 @@
+flex .\scanner.lxi
+bison -d .\parser.y
+gcc .\parser.tab.c .\lex.yy.c -o please -lm
+.\please.exe .\p2.txt

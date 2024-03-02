@@ -1,0 +1,6 @@
+5 - [i]
+23 - [false]
+46 - [check_prime]
+48 - [0][true]
+49 - [number]
+50 - [2]

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+9yy2TJbVEXaCn/NXfRcIrvkbxM33jY0v97jKK94wzvPw9ekL0+YNcu6HmbXTXN5ZgjumAQ/udaXlBjK1/Q2bw==",
+  "success": true,
+  "projectFilePath": "D:\\y3\\vr\\lab1-volumetric_data\\lab1-volumetric_data.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Denisa\\.nuget\\packages\\microsoft.win32.systemevents\\8.0.0\\microsoft.win32.systemevents.8.0.0.nupkg.sha512",
+    "C:\\Users\\Denisa\\.nuget\\packages\\system.drawing.common\\8.0.0\\system.drawing.common.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

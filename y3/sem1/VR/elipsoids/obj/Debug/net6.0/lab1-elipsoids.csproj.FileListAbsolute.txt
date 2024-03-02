@@ -1,0 +1,40 @@
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.exe
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.deps.json
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.runtimeconfig.json
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.dll
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.pdb
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Anul 3\VR\lab1-elipsoids\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.AssemblyReference.cache
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.GeneratedMSBuildEditorConfig.editorconfig
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.AssemblyInfoInputs.cache
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.AssemblyInfo.cs
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.CoreCompileInputs.cache
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.CopyComplete
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.dll
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\refint\lab1-elipsoids.dll
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.pdb
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.genruntimeconfig.cache
+D:\Anul 3\VR\lab1-elipsoids\obj\Debug\net6.0\ref\lab1-elipsoids.dll
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.exe
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.deps.json
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.runtimeconfig.json
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.dll
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\lab1-elipsoids.pdb
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\y3\vr\lab1-elipsoids\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.AssemblyReference.cache
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.GeneratedMSBuildEditorConfig.editorconfig
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.AssemblyInfoInputs.cache
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.AssemblyInfo.cs
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.CoreCompileInputs.cache
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.csproj.CopyComplete
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.dll
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\refint\lab1-elipsoids.dll
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.pdb
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\lab1-elipsoids.genruntimeconfig.cache
+D:\y3\vr\lab1-elipsoids\obj\Debug\net6.0\ref\lab1-elipsoids.dll

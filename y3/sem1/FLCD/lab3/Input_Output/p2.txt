@@ -1,0 +1,8 @@
+DEF check_prime[INT number](
+	FOR[INT i = 2; i >= number / 2; i ++](
+		IF[number % 2 == 0](
+			RET false;
+		)
+	)
+	RET true;
+)

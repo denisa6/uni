@@ -1,0 +1,14 @@
+Syntax.in:
+- program ::= "start" compound_statement 
+related to this, the program from "lab1a.txt" starts with "if __name__ == '__main__'" not with "start"
+
+- iostmt ::= "read" "(" IDENTIFIER ")" | "write" "(" IDENTIFIER ")" | "write "(" CONST ")"
+in the functions from "lab1a.txt" you use "input" not "read" and "print" not "write"
+
+- simple_type ::= "int" | "string" | "char"
+you use "float" at some point in the code
+
+- you use functions like "compute_sum" but don't have it assigned anywhere here
+
+token.in:
+- you don't have "and", "or" and "%" as even though you use them in your code

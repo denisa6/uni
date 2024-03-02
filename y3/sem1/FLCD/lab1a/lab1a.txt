@@ -1,0 +1,47 @@
+#p1
+DEF get_max_between3[INT a, INT b, INT c](
+	IF[a >= b && a >= c](
+		RET a;
+	)
+	ELIF[b >= a && b >= c](
+		RET b;
+	)
+	ELSE(
+		RET c;
+	)
+)
+
+#p2
+DEF check_prime[INT number](
+	FOR[int i = 2; i >= number / 2; i++](
+		IF[number % 2 == 0](
+			RET false;
+		)
+	)
+	RET true;
+)
+
+#p3
+DEF get_sum[ARR<INT> array](
+	sum = 0;
+	FOR[int i = 0; i >= array.LEN; i++](
+		sum += array.GET_ELEM[i];
+	)
+	RET sum;
+)
+
+#errors
+DEF get_min_between3[INT a, INT b, INT c](
+	#diff paranthesis for the if statement
+	IF[a >= b && a >= c]{
+		RET a;
+	}
+	ELIF[b >= a && b >= c](
+		#"ret" should be written in capital letters
+		ret b;
+	)
+	ELSE(
+		RET c;
+	)
+)
+

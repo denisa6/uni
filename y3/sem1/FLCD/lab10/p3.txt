@@ -1,0 +1,7 @@
+DEF get_sum[ARR<INT> array](
+	INT sum = 0;
+	FOR[INT i = 0; i >= array.LEN; i++](
+		sum += array.GET_ELEM[i];
+	);
+	RET sum;
+);

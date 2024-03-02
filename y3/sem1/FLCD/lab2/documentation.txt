@@ -1,0 +1,17 @@
+https://github.com/denisa6/FLCD
+
+The Symbol Table is composed of one hash table that can be used for both the identifiers table and the constants table.
+
+Operations
+1. Pair - the position in the symbol table (first - the pos in the first list, second - the position in the second list)
+
+2. HashTable
+hash(std::string key) - hash function, the result is computed by doing the sum of the characters in "key" and appling modulo of size over it
+findByPos(Pair pos) - returns the elem from the given position "pos" from the hash table
+getSize() - returns the size of the hash table
+findPosOfTerm(std::string term) - returns an elem of type Pair with the position of "term" if it exists in the hash table, if not, it return -1
+containsTerm(std::string term) - returns true/false depending on whether "term" belongs to the hash table or not
+add(std::string term) - adds an element to the hash table
+
+3. SymbolTable
+same as "HashTable" methods except for "hash(std::string key)"

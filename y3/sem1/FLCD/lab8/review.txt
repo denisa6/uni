@@ -1,0 +1,5 @@
+Code review for Diana Jugariu + Ioana Claudia Moisiuc considering that I have no clue who wrote what part of the code.
+
+I can't find a single mistake, the code is absolutely perfect. The algorithm that they had to implement was 10 times more difficult than what I had to do. I can't understand how they pulled it off so well.
+The overall code is very well-structured, and I'm glad that they stuck to only one naming convention for the variables/function names. :)
+In conclusion: amazing.

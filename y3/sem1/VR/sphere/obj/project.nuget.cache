@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "JcKMLfpeEerKiQMvx5sL1uISLHOfDwH3lJvOhgz7xNqdeLVBYiPfCI+GafzLPngIh4wi1emOL89+VVIn4htHPw==",
+  "success": true,
+  "projectFilePath": "D:\\Anul 3\\VR\\lab1-sphere\\lab1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Denisa\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "C:\\Users\\Denisa\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,9 @@
+DEF check_prime[INT number] (
+	INT a = "mer";
+	FOR[INT i = 21; i >= number / 2; i++](
+		IF[number % 2 == 0](
+			RET false;
+		);
+	);
+	RET true;
+);

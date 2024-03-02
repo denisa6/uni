@@ -1,0 +1,23 @@
+Alphabet:
+	- Upper (A-Z) and lower case letters (a-z) of the English alphabet
+	- Underline character '_'
+	- Decimal digits
+Lexic:
+	- special symbols: 
+		- operators: + - * / < <= = >= == <> && ||
+		- separators: [ ] { } ( ) , ; : space newline " '
+		- reserved words: DEF INT STR CHAR IF ELSE READ PRINT DO WHILE FOR ARR CONST RET MAIN
+	- identifiers: a sequence of letters and digits, such that the first character is a letter with the rule being: 
+		identifier = letter | letter{letter|digit|"_"}
+		letter = "A" | "B" | ... | "Z" | "a" | "b" | ... | "z"
+		digit = "0" | "1" | "2" | ... | "9"
+	- constants:
+		- integer - rule:
+			noconst := "+" no | "-" no | no
+			no := digit{no}
+		- character:
+			character := letter | digit
+		- string:
+			constchar := "string"
+			string := char{string}
+			char := letter | digit
